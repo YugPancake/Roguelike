@@ -1,125 +1,194 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-
-
-class Map
+namespace оброботка_клавиатуры
 {
-    private int width;
-    private int height;
-    private char[,] tiles;
-
-    public Map(int width, int height)
+    public class Game
     {
-        this.width = width;
-        this.height = height;
-        this.tiles = new char[width, height];
-        Generate();
+
     }
 
-    public void Generate()
+    internal class Program
     {
-        Random rand = new Random();
-        for (int x = 0; x < width; x++)
+        bool quit = false;
+        int X;
+        int Y;
+
+        int[,] GameField;
+        int w = 40, h = 20;
+        int lavel = 0;
+        void Init()
         {
-            for (int y = 0; y < height; y++)
-            {
-                if (rand.Next(2) == 0)
-                {
-                    tiles[x, y] = '.';
-                }
-                else
-                {
-                    tiles[x, y] = '#';
-                }
-            }
+            Console.CursorVisible = false;
+            Console.SetWindowSize(w + 10, h + 10);
+            Console.SetBufferSize(w + 10, h + 10);
         }
-    }
 
-    public void Draw()
-    {
-        for (int y = 0; y < height; y++)
+        void Load(int level = 1)
         {
-            for (int x = 0; x < width; x++)
+
+            X = w / 2;
+            Y = h / 2;
+            GameField = new int[w + 1, h + 1];
+            GameField[X, Y] = 1;
+            //Random random = new Random();
+            for (int i = 0; i <= w; i++)
             {
-                Console.Write(tiles[x, y]);
+                GameField[i, 0] = 9;
+                GameField[i, h] = 9;
             }
-            Console.WriteLine();
+            for (int i = 0; i < h; i++)
+            {
+                GameField[0, i] = 9;
+                GameField[w, i] = 9;
+            }
+
         }
-    }
-}
-class Player
-{
-    private int x;
-    private int y;
-
-    public Player(int x, int y)
-    {
-        this.x = x;
-        this.y = y;
-    }
-
-    public void MoveUp()
-    {
-        y--;
-    }
-
-    public void MoveDown()
-    {
-        y++;
-    }
-
-    public void MoveLeft()
-    {
-        x--;
-    }
-
-    public void MoveRight()
-    {
-        x++;
-    }
-
-    public int GetX()
-    {
-        return x;
-    }
-
-    public int GetY()
-    {
-        return y;
-    }
-}
-
-class Program
-{
-    static void Main(string[] args)
-    {
-        Map map = new Map(20, 10);
-        map.Draw();
-        Player player = new Player(10, 5);
-
-        while (true)
+        void moveGame(int d)
         {
-            Console.Clear();
-            map.Draw();
-            Console.SetCursorPosition(player.GetX(), player.GetY());
-            Console.Write('@');
+            for (int i = 0; i <= w; i++)
 
-            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-            switch (keyInfo.Key)
+                for (int j = 0; j < h; j++)
+                {
+                    if (GameField[i, j] == 1)
+                    {
+                        switch (d)
+                        {
+                            case 1:
+
+
+                                if (GameField[i - 1, j] == 0)
+                                {
+                                    GameField[i, j] = 0;
+                                    GameField[i - 1, j] = 1;
+                                }
+                                return;
+
+
+                            case 2:
+
+
+                                if (GameField[i + 1, j] == 0)
+                                {
+                                    GameField[i, j] = 0;
+                                    GameField[i + 1, j] = 1;
+                                }
+                                return;
+
+                            case 3:
+
+                                if (GameField[i, j - 1] == 0)
+                                {
+                                    GameField[i, j] = 0;
+                                    GameField[i, j - 1] = 1;
+                                }
+                                return;
+
+                            case 4:
+
+                                if (GameField[i, j + 1] == 0)
+                                {
+                                    GameField[i, j] = 0;
+                                    GameField[i, j + 1] = 1;
+                                }
+                                return;
+
+
+
+
+                        }
+                    }
+
+                }
+        }
+        void PrintGameField()
+        {
+            for (int y = 0; y <= h; y++)
+                for (int x = 0; x <= w; x++)
+                {
+                    Console.SetCursorPosition(x, y + 1);
+
+                    switch (GameField[x, y])
+                    {
+                        case 0:
+                            Console.WriteLine(' ');
+                            break;
+                        case 1:
+                            Console.WriteLine('@');
+                            break;
+                        case 10:
+                            Console.WriteLine('/');
+                            break;
+                        default:
+                            Console.WriteLine('#');
+                            break;
+
+                    }
+                }
+            Console.SetCursorPosition(10, 0);
+
+        }
+        int keybordUpdate()
+        {
+            while (true)
             {
-                case ConsoleKey.UpArrow:
-                    player.MoveUp();
-                    break;
-                case ConsoleKey.DownArrow:
-                    player.MoveDown();
-                    break;
-                case ConsoleKey.LeftArrow:
-                    player.MoveLeft();
-                    break;
-                case ConsoleKey.RightArrow:
-                    player.MoveRight();
-                    break;
+                ConsoleKeyInfo key;
+                key = Console.ReadKey(true);
+
+                switch (key.Key)
+                {
+                    case ConsoleKey.S:
+                        return 1;
+                    case ConsoleKey.D:
+                        return 2;
+                    case ConsoleKey.W:
+                        return 3;
+                    case ConsoleKey.A:
+                        return 4;
+                    case ConsoleKey.Escape:
+                        return 99;
+                    default:
+                        break;
+
+
+
+                }
+
             }
+
+
+
+        }
+        public void Game()
+        {
+            Init();
+            Load();
+            PrintGameField();
+            int d = 0;
+            while (d != 99)
+            {
+                d = keybordUpdate();
+                moveGame(d);
+                PrintGameField();
+
+                //Console.WriteLine("действие "+d);
+            }
+
+
+
+
+
+
+        }
+
+        static void Main(string[] args)
+        {
+            Program program = new Program();
+            program.Game();
+            Console.ReadKey();
         }
     }
 }
