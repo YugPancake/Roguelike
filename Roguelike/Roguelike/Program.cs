@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -80,33 +81,38 @@ namespace Roguelike
             switch (id)
             {
                 case 1:
-                    this.img = '/'; // атк +2 
+                    this.img = '/'; // атк +2 на карте
                     this.name = "Палка";
                     this.massage = "Просто палка.";
                     break;
                 case 2:
-                    this.img = 'f'; // атк +4
+                    this.img = 'f'; // атк +4 на карте
                     this.name = "Палка с гвоздями";
                     this.massage = "Просто палка... Кто вбил в нее столько гроздей?";
                     break;
                 case 3:
-                    this.img = '♥'; // хп +2
-                    this.name = "Сердце";
-                    this.massage = "Вы напоняетесь решимостью.";
-                    break;
-                case 4:
-                    this.img = 'Ô'; // дф +2 
+                    this.img = 'Ô'; // дф +2 на карте
                     this.name = "Крышка от кастрюли";
                     this.massage = "А где сама кастрюля?";
                     break;
+                case 4:
+                    this.img = '♥'; // хп +2 на карте и продажа
+                    this.name = "Сердце";
+                    this.massage = "Вы напоняетесь решимостью.";
+                    break;
                 case 5:
-                    this.img = '∫'; // атк + 6
+                    this.img = '∫'; // атк + 6 продажа
                     this.name = "Труба";
                     this.massage = "Они прокладывают трубы до августа.";
                     break;
                 case 6:
-                    this.img = 'U'; // дф + 4
+                    this.img = 'U'; // дф + 4 продажа
                     this.name = "Ведро";
+                    this.massage = "Наконец-то! Ведро! Да, да, да! Обожаю это ведро.";
+                    break;
+                case 7:
+                    this.img = ' '; // что-нибудь еще я не знаю продажа
+                    this.name = "";
                     this.massage = "Наконец-то! Ведро! Да, да, да! Обожаю это ведро.";
                     break;
             }
@@ -118,6 +124,14 @@ namespace Roguelike
         public int x;
         public int y;
         List<Items> traideItem;
+        public void createTraideItems()
+        {
+            for (int i = 4; i <= 7; i++)
+            {
+                var i1 = new Items(i);
+                traideItem.Add(i1);
+            }
+        }
     }
 
     public class Game
@@ -188,6 +202,15 @@ namespace Roguelike
             Items heal = new Items(3);
             Items shield = new Items(4);
 
+
+            string line;
+            var textFile = new StreamReader("C:\\Users\\yugbl\\source\\repos\\Roguelike\\Roguelike\\traider.txt");
+            while ((line = textFile.ReadLine()) != null)
+            {
+                Console.WriteLine(line);
+            }
+            textFile.Close();
+            Console.ReadLine();
         }
     }
 }
