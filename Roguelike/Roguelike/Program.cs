@@ -14,14 +14,45 @@ namespace Roguelike
         public int hp;
         public int atk;
         public int def;
-        public int x;
-        public int y;
     }
 
     public class Player : Character
     {
         public int classP;
+        private int x;
+        private int y;
+        public Player(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+        public void MoveUp()
+        {
+            y--;
+        }
 
+        public void MoveDown()
+        {
+            y++;
+        }
+
+        public void MoveLeft()
+        {
+            x--;
+        }
+
+        public void MoveRight()
+        {
+            x++;
+        }
+        public int GetX()
+        {
+            return x;
+        }
+        public int GetY()
+        {
+            return y;
+        }
         public Player(int hp, int atk, int def, int classP)
         {
             if (classP == 1)
@@ -124,6 +155,17 @@ namespace Roguelike
         public int x;
         public int y;
         List<Items> traideItem;
+
+    //    public void traideWindow() {
+    //    public string line;
+    //    public var textFile = new StreamReader("C:\\Users\\yugbl\\source\\repos\\Roguelike\\Roguelike\\traider.txt");
+    //        while ((line = textFile.ReadLine()) != null)
+    //        {
+    //            Console.WriteLine(line);
+    //        }
+    //textFile.Close();
+    //    Console.ReadLine();
+    //    }
         public void createTraideItems()
         {
             for (int i = 4; i <= 7; i++)
@@ -133,6 +175,7 @@ namespace Roguelike
             }
         }
     }
+
 
     public class Game
     {
@@ -161,10 +204,50 @@ namespace Roguelike
 
     }
 
-    //public void draw()
-    //{
+    class Map
+    {
+        public int width;
+        public int height;
+        public char[,] tiles;
 
-    //}
+        public Map(int width, int height)
+        {
+            this.width = width;
+            this.height = height;
+            tiles = new char[width, height];
+            Generate();
+        }
+
+        public void Generate()
+        {
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    tiles[x, y] = '#';
+                }
+            }
+            for (int x = 1; x < width - 1; x++)
+            {
+                for (int y = 1; y < height - 1; y++)
+                {
+                    tiles[x, y] = ' ';
+                }
+            }
+        }
+
+        public void Draw()
+        {
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    Console.Write(tiles[x, y]);
+                }
+                Console.WriteLine();
+            }
+        }
+    }
 
     //public void keyEvent()
     //{
@@ -195,22 +278,61 @@ namespace Roguelike
 
     class Program
     {
-        static void Main(String[] args)
+        static void Main(string[] args)
         {
-            Items stick = new Items(1);
-            Items betterStick = new Items(2);
-            Items heal = new Items(3);
-            Items shield = new Items(4);
+            Map map = new Map(20, 20);
+            map.Draw();
+            Player player = new Player(1, 1);
 
-
-            string line;
-            var textFile = new StreamReader("C:\\Users\\yugbl\\source\\repos\\Roguelike\\Roguelike\\traider.txt");
-            while ((line = textFile.ReadLine()) != null)
+            while (true)
             {
-                Console.WriteLine(line);
+                Console.Clear();
+
+                map.Draw();
+
+                Console.SetCursorPosition(player.GetX(), player.GetY());
+
+                Console.Write('@');
+
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+
+
+                switch (keyInfo.Key)
+                {
+                    case ConsoleKey.UpArrow:
+                        {
+                            if (map.tiles[player.GetX(), player.GetY() - 1] == ' ')
+                            {
+                                player.MoveUp();
+                            }
+                            break;
+                        }
+                    case ConsoleKey.DownArrow:
+                        {
+                            if (map.tiles[player.GetX(), player.GetY() + 1] == ' ')
+                            {
+                                player.MoveDown();
+                            }
+                            break;
+                        }
+                    case ConsoleKey.LeftArrow:
+                        {
+                            if (map.tiles[player.GetX() - 1, player.GetY()] == ' ')
+                            {
+                                player.MoveLeft();
+                            }
+                            break;
+                        }
+                    case ConsoleKey.RightArrow:
+                        {
+                            if (map.tiles[player.GetX() + 1, player.GetY()] == ' ')
+                            {
+                                player.MoveRight();
+                            }
+                            break;
+                        }
+                }
             }
-            textFile.Close();
-            Console.ReadLine();
         }
     }
 }
