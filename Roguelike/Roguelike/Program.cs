@@ -3,7 +3,9 @@ using System.CodeDom;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -142,37 +144,52 @@ namespace Roguelike
                     this.massage = "Наконец-то! Ведро! Да, да, да! Обожаю это ведро.";
                     break;
                 case 7:
-                    this.img = ' '; // что-нибудь еще я не знаю продажа
-                    this.name = "";
-                    this.massage = "Наконец-то! Ведро! Да, да, да! Обожаю это ведро.";
+                    this.img = '◍'; // ничего не делает продажа
+                    this.name = "Пчела";
+                    this.massage = "Она бзикает.";
                     break;
             }
         }
     }
 
-    public class Traider
+    public class Trader
     {
         public int x;
         public int y;
+        public string[] lines;
+        public string s;
+        private string tradePath = "C:\\Users\\yugbl\\source\\repos\\Roguelike\\Roguelike\\traider.txt";
+        public int key = 0;
+
         List<Items> traideItem;
 
-    //    public void traideWindow() {
-    //    public string line;
-    //    public var textFile = new StreamReader("C:\\Users\\yugbl\\source\\repos\\Roguelike\\Roguelike\\traider.txt");
-    //        while ((line = textFile.ReadLine()) != null)
-    //        {
-    //            Console.WriteLine(line);
-    //        }
-    //textFile.Close();
-    //    Console.ReadLine();
-    //    }
-        public void createTraideItems()
+        public void createTradeItems()
         {
             for (int i = 4; i <= 7; i++)
             {
                 var i1 = new Items(i);
                 traideItem.Add(i1);
             }
+        }
+
+        public void tradeWindow()
+        {
+            lines = File.ReadAllLines(tradePath);
+            foreach (string s in lines)
+            {
+                Console.WriteLine(s);
+            }
+            Console.ReadLine();
+
+            //StreamReader windowTrade = new StreamReader(tradePath);
+            //while (!windowTrade.EndOfStream)
+            //{
+            //    s = windowTrade.ReadLine();
+            //    Console.Write(s);
+            //}
+            //windowTrade.Close();
+
+
         }
     }
 
@@ -283,12 +300,15 @@ namespace Roguelike
             Map map = new Map(20, 20);
             map.Draw();
             Player player = new Player(1, 1);
+            Trader trader = new Trader();
 
             while (true)
             {
                 Console.Clear();
 
                 map.Draw();
+
+                Console.WriteLine("s - перейти в магазин");
 
                 Console.SetCursorPosition(player.GetX(), player.GetY());
 
@@ -329,6 +349,12 @@ namespace Roguelike
                             {
                                 player.MoveRight();
                             }
+                            break;
+                        }
+                    case ConsoleKey.S:
+                        {
+                            Console.Clear();
+                            trader.tradeWindow();
                             break;
                         }
                 }
