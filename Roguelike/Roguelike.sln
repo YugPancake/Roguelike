@@ -8,10 +8,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{DD6F597D-C371-4372-BD16-C1C9D4177BE8}"
 	ProjectSection(SolutionItems) = preProject
 		hero.txt = hero.txt
-		traider.txt = traider.txt
-		mob2.txt = mob2.txt
 		mob1.txt = mob1.txt
+		mob2.txt = mob2.txt
 		mob3.txt = mob3.txt
+		trader3.txt = trader3.txt
+		trader1.txt = trader1.txt
+		trader4.txt = trader4.txt
+		trader2.txt = trader2.txt
+		trader5.txt = trader5.txt
 	EndProjectSection
 EndProject
 Global

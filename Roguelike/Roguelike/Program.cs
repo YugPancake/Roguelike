@@ -119,29 +119,29 @@ namespace Roguelike
                     this.massage = "Просто палка.";
                     break;
                 case 2:
-                    this.img = 'f'; // атк +4 на карте
-                    this.name = "Палка с гвоздями";
-                    this.massage = "Просто палка... Кто вбил в нее столько гроздей?";
-                    break;
-                case 3:
                     this.img = 'Ô'; // дф +2 на карте
                     this.name = "Крышка от кастрюли";
                     this.massage = "А где сама кастрюля?";
                     break;
-                case 4:
-                    this.img = '♥'; // хп +2 на карте и продажа
+                case 3:
+                    this.img = '♥'; // хп +2 на карте
                     this.name = "Сердце";
                     this.massage = "Вы напоняетесь решимостью.";
                     break;
-                case 5:
-                    this.img = '∫'; // атк + 6 продажа
-                    this.name = "Труба";
-                    this.massage = "Они прокладывают трубы до августа.";
+                case 4:
+                    this.img = 'f'; // атк +4 продажа
+                    this.name = "Палка с гвоздями";
+                    this.massage = "Просто палка... Кто вбил в нее столько гроздей?";
                     break;
-                case 6:
+                case 5:
                     this.img = 'U'; // дф + 4 продажа
                     this.name = "Ведро";
                     this.massage = "Наконец-то! Ведро! Да, да, да! Обожаю это ведро.";
+                    break;
+                case 6:
+                    this.img = '∫'; // атк + 6 продажа
+                    this.name = "Труба";
+                    this.massage = "Они прокладывают трубы до августа.";
                     break;
                 case 7:
                     this.img = '◍'; // ничего не делает продажа
@@ -158,8 +158,9 @@ namespace Roguelike
         public int y;
         public string[] lines;
         public string s;
-        private string tradePath = "C:\\Users\\yugbl\\source\\repos\\Roguelike\\Roguelike\\traider.txt";
+        private string tradePath;
         public int key = 0;
+        int index = 1;
 
         List<Items> traideItem;
 
@@ -174,22 +175,17 @@ namespace Roguelike
 
         public void tradeWindow()
         {
+            tradePath = $"C:\\Users\\yugbl\\source\\repos\\Roguelike\\Roguelike\\trader{index}.txt";
             lines = File.ReadAllLines(tradePath);
             foreach (string s in lines)
             {
                 Console.WriteLine(s);
             }
-            Console.ReadLine();
-
-            //StreamReader windowTrade = new StreamReader(tradePath);
-            //while (!windowTrade.EndOfStream)
-            //{
-            //    s = windowTrade.ReadLine();
-            //    Console.Write(s);
-            //}
-            //windowTrade.Close();
-
-
+            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+            if (keyInfo.Key == ConsoleKey.K && index < 5)
+            {
+                index++;
+            }
         }
     }
 
