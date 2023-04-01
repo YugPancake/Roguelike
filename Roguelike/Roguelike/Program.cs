@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -16,6 +17,7 @@ namespace Roguelike
         public int hp;
         public int atk;
         public int def;
+        public int gold;
     }
 
     public class Player : Character
@@ -23,10 +25,24 @@ namespace Roguelike
         public int classP;
         private int x;
         private int y;
-        public Player(int x, int y)
+        public Player(int x, int y, int hp, int atk, int def, int gold, int classP)
         {
             this.x = x;
             this.y = y;
+            if (classP == 1)
+            {
+                this.hp = hp * 10;
+                this.atk = atk * 2;
+                this.def = def * 1;
+                this.gold = gold * 0;
+            }
+            else if (classP == 2)
+            {
+                this.hp = hp * 15;
+                this.atk = atk * 1;
+                this.def = def * 1;
+                this.gold = gold * 0;
+            }
         }
         public void MoveUp()
         {
@@ -55,27 +71,17 @@ namespace Roguelike
         {
             return y;
         }
-        public Player(int hp, int atk, int def, int classP)
-        {
-            if (classP == 1)
-            {
-                this.hp = hp * 10;
-                this.atk = atk * 2;
-                this.def = def * 1;
-            }
-            else if (classP == 2)
-            {
-                this.hp = hp * 15;
-                this.atk = atk * 1;
-                this.def = def * 1;
-            }
-        }
 
+        public void Inventory()
+        {
+            List<Items> Inventory;
+        }
     }
 
     public class Enemy : Character
     {
         public int classE;
+        public string enemyPath;
 
         public Enemy(int hp, int atk, int def, int classE)
         {
@@ -84,6 +90,7 @@ namespace Roguelike
                 this.hp = hp * 3;
                 this.atk = atk * 1;
                 this.def = def * 1;
+                this.enemyPath = "C:\\Users\\yugbl\\source\\repos\\Roguelike\\Roguelike\\mob1.txt";
             }
 
             if (classE == 2)
@@ -91,12 +98,14 @@ namespace Roguelike
                 this.hp = hp * 4;
                 this.atk = atk * 2;
                 this.def = def * 2;
+                this.enemyPath = "C:\\Users\\yugbl\\source\\repos\\Roguelike\\Roguelike\\mob2.txt";
             }
             if (classE == 3)
             {
                 this.hp = hp * 7;
                 this.atk = atk * 10;
                 this.def = def * 1;
+                this.enemyPath = "C:\\Users\\yugbl\\source\\repos\\Roguelike\\Roguelike\\mob3.txt";
             }
 
 
@@ -189,6 +198,87 @@ namespace Roguelike
         }
     }
 
+    public class Fight
+    {
+        public string[] lines1;
+        public string[] gameOverLines;
+        public string gameOverPath = "C:\\Users\\yugbl\\source\\repos\\Roguelike\\Roguelike\\gameover.txt";
+
+        public int start(Player p1, Enemy e1)
+        {
+            Console.Clear();
+
+            lines1 = File.ReadAllLines(e1.enemyPath);
+            //lines2 = File.ReadAllLines(e1.enemyPath);
+            int maxE1Xp = e1.hp;
+            int maxP1Xp = p1.hp;
+
+
+            foreach (string s in lines1)
+            {
+                Console.WriteLine(s);
+            }
+
+
+            Console.WriteLine($"     Игрок: {maxP1Xp} / {maxP1Xp}                                          Монстр: {maxE1Xp} / {maxE1Xp} ");
+            Console.ReadKey();
+
+            while (e1.hp > 0 && p1.hp > 0)
+            {
+
+                Console.Clear();
+
+                foreach (string s in lines1)
+                {
+                    Console.WriteLine(s);
+                }
+                e1.hp = e1.hp - (p1.atk - e1.def);
+                Console.WriteLine($"     Игрок: {p1.hp} / {maxP1Xp}                                          Монстр: {e1.hp} / {maxE1Xp} ");
+                Console.WriteLine("Герой бьет");
+
+                Console.ReadKey();
+
+                if (e1.hp > 0)
+                {
+                    Console.Clear();
+                    foreach (string s in lines1)
+                    {
+                        Console.WriteLine(s);
+                    }
+                    p1.hp = p1.hp - (e1.atk - p1.def);
+                    Console.WriteLine($"     Игрок: {p1.hp} / {maxP1Xp}                                          Монстр: {e1.hp} / {maxE1Xp} ");
+                    Console.WriteLine("Героя бьют");
+                    Console.ReadKey();
+                }
+                else if (e1.hp <= 0)
+                {
+                    break;
+                }
+                else { break; }
+
+            }
+            if (e1.hp == 0)
+            {
+                Console.Clear();
+                Console.WriteLine("Монстр повержен!!!");
+                Console.ReadKey();
+                return 1;
+            }
+            else
+            {
+                Console.Clear();
+                gameOverLines = File.ReadAllLines(gameOverPath);
+                foreach (string s in gameOverLines)
+                {
+                    Console.WriteLine(s);
+                }
+                Environment.Exit(1);
+                return 0;
+            }
+
+        }
+    }
+
 
     public class Game
     {
@@ -212,7 +302,7 @@ namespace Roguelike
 
         public void createPlayer(int classP)
         {
-            var p1 = new Player(1, 1, 1, classP);
+            var p1 = new Player(1, 1, 1, 1, 1, 1, classP);
         }
 
     }
@@ -281,22 +371,16 @@ namespace Roguelike
 
     //}
 
-    public static class Fight
-    {
-        public static void start(Character p1, Enemy e1)
-        {
-            p1.hp -= 10;
-        }
-    }
-
     class Program
     {
         static void Main(string[] args)
         {
             Map map = new Map(20, 20);
             map.Draw();
-            Player player = new Player(1, 1);
+            Player player = new Player(1, 1, 1, 1, 1, 1, 1);
+            Enemy enemy = new Enemy(1, 1, 1, 2);
             Trader trader = new Trader();
+            Fight fight = new Fight();
 
             while (true)
             {
@@ -351,6 +435,11 @@ namespace Roguelike
                         {
                             Console.Clear();
                             trader.tradeWindow();
+                            break;
+                        }
+                    case ConsoleKey.F:
+                        {
+                            fight.start(player, enemy);
                             break;
                         }
                 }
