@@ -165,9 +165,10 @@ namespace Roguelike
     {
         public int x;
         public int y;
-        public string[] lines;
-        public string s;
+        public string[] tradeLines;
         private string tradePath;
+        private string noGoldPath;
+        public string[] noGoldLines;
         public int key = 0;
         int index = 1;
 
@@ -182,18 +183,90 @@ namespace Roguelike
             }
         }
 
-        public void tradeWindow()
+        public void tradeWindow(Player p1)
         {
             tradePath = $"C:\\Users\\yugbl\\source\\repos\\Roguelike\\Roguelike\\trader{index}.txt";
-            lines = File.ReadAllLines(tradePath);
-            foreach (string s in lines)
+            tradeLines = File.ReadAllLines(tradePath);
+            foreach (string s in tradeLines)
             {
                 Console.WriteLine(s);
             }
+            noGoldPath = "C:\\Users\\yugbl\\source\\repos\\Roguelike\\Roguelike\\nogold.txt";
+            noGoldLines = File.ReadAllLines(noGoldPath);
+
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
             if (keyInfo.Key == ConsoleKey.K && index < 5)
             {
-                index++;
+                switch (index)
+                {
+                    case 1:
+                        if(p1.gold >= 10)
+                        {
+                            index++;
+                            p1.gold -= 10;
+                            p1.atk += 4;
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            foreach (string s in noGoldLines)
+                            {
+                                Console.WriteLine(s);
+                            }
+                            Console.ReadKey();
+                        }
+                        break;
+                    case 2:
+                        if (p1.gold >= 25)
+                        {
+                            index++;
+                            p1.gold -= 25;
+                            p1.def += 2;
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            foreach (string s in noGoldLines)
+                            {
+                                Console.WriteLine(s);
+                            }
+                            Console.ReadKey();
+                        }
+                        break;
+                    case 3:
+                        if (p1.gold >= 50)
+                        {
+                            index++;
+                            p1.gold -= 50;
+                            p1.atk += 4;
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            foreach (string s in noGoldLines)
+                            {
+                                Console.WriteLine(s);
+                            }
+                            Console.ReadKey();
+                        }
+                        break;
+                    case 4:
+                        if (p1.gold >= 999)
+                        {
+                            index++;
+                            p1.gold -= 999;
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            foreach (string s in noGoldLines)
+                            {
+                                Console.WriteLine(s);
+                            }
+                            Console.ReadKey();
+                        }
+                        break;
+                }
             }
         }
     }
@@ -257,7 +330,7 @@ namespace Roguelike
                 else { break; }
 
             }
-            if (e1.hp == 0)
+            if (e1.hp <= 0)
             {
                 Console.Clear();
                 Console.WriteLine("Монстр повержен!!!");
@@ -434,7 +507,7 @@ namespace Roguelike
                     case ConsoleKey.S:
                         {
                             Console.Clear();
-                            trader.tradeWindow();
+                            trader.tradeWindow(player);
                             break;
                         }
                     case ConsoleKey.F:
