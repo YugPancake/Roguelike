@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Security.Principal;
@@ -166,6 +167,9 @@ namespace Roguelike
         public string name;
         public string massage;
         public int id;
+        public int x;
+        public int y;
+        public int stat;
         public Items(int id)
         {
             switch (id)
@@ -174,11 +178,17 @@ namespace Roguelike
                     this.img = '/'; // атк +2 на карте
                     this.name = "Палка";
                     this.massage = "Просто палка.";
+                    this.x = 5;
+                    this.y = 3;
+                    this.stat = 2;
                     break;
                 case 2:
                     this.img = 'Ô'; // дф +2 на карте
                     this.name = "Крышка от кастрюли";
                     this.massage = "А где сама кастрюля?";
+                    this.x = 12;
+                    this.y = 6;
+                    this.stat = 2;
                     break;
                 case 3:
                     this.img = '♥'; // хп +2 на карте
@@ -452,6 +462,9 @@ namespace Roguelike
         public int height;
         public char[,] tiles;
 
+        Items stick = new Items(1);
+        Items cap = new Items(2);
+
         public Map(int width, int height)
         {
 
@@ -477,10 +490,22 @@ namespace Roguelike
             {
                 for (int y = 1; y < height - 1; y++)
                 {
-                    tiles[x, y] = ' ';
+                    if (y == stick.y && x == stick.x)
+                    {
+                        tiles[x, y] = stick.img;
+                    }
+                    else if (y == cap.y && x == cap.x)
+                    {
+                        tiles[x, y] = cap.img;
+                    }
+                    else
+                    {
+                        tiles[x, y] = ' ';
+                    }
                 }
             }
         }
+
         public void GenerateLeft1()
         {
             for (int x = 1; x < width / 2; x++)
@@ -503,7 +528,18 @@ namespace Roguelike
             {
                 for (int y = 1; y < (height / 2) - 1; y++)
                 {
-                    tiles[x, y] = ' ';
+                    if (y == stick.y && x == stick.x)
+                    {
+                        tiles[x, y] = stick.img;
+                    }
+                    else if (y == cap.y && x == cap.x)
+                    {
+                        tiles[x, y] = cap.img;
+                    }
+                    else
+                    {
+                        tiles[x, y] = ' ';
+                    }
                 }
             }
         }
@@ -529,7 +565,18 @@ namespace Roguelike
             {
                 for (int y = 10; y < (height - 1); y++)
                 {
-                    tiles[x, y] = ' ';
+                    if (y == stick.y && x == stick.x)
+                    {
+                        tiles[x, y] = stick.img;
+                    }
+                    else if (y == cap.y && x == cap.x)
+                    {
+                        tiles[x, y] = cap.img;
+                    }
+                    else
+                    {
+                        tiles[x, y] = ' ';
+                    }
                 }
             }
 
@@ -596,6 +643,8 @@ namespace Roguelike
             Enemy enemy = new Enemy(1, 1, 1, 1, 1);
             Trader trader = new Trader();
             Fight fight = new Fight();
+            Items stick = new Items(1);
+            Items cap = new Items(2);
             int a = 0;
 
             while (true)
@@ -666,32 +715,84 @@ namespace Roguelike
                 {
                     case ConsoleKey.UpArrow:
                         {
-                            if (map.tiles[player.GetX(), player.GetY() - 1] == ' ' || map.tiles[player.GetX(), player.GetY() - 1] == '-')
+                            if (map.tiles[player.GetX(), player.GetY() - 1] == ' ' || map.tiles[player.GetX(), player.GetY() - 1] == '-' || map.tiles[player.GetX(), player.GetY() - 1] == stick.img || map.tiles[player.GetX(), player.GetY() - 1] == cap.img)
                             {
+                                if (map.tiles[player.GetX(), player.GetY()] == stick.img)
+                                {
+                                    player.atk += stick.stat;
+                                    map.tiles[player.GetX(), player.GetY()] = ' ';
+                                    stick.stat = 0;
+                                }
+
+                                if (map.tiles[player.GetX(), player.GetY()] == cap.img)
+                                {
+                                    player.def += cap.stat;
+                                    map.tiles[player.GetX(), player.GetY()] = ' ';
+                                    stick.stat = 0;
+                                }
                                 player.MoveUp();
                             }
                             break;
                         }
                     case ConsoleKey.DownArrow:
                         {
-                            if (map.tiles[player.GetX(), player.GetY() + 1] == ' ' || map.tiles[player.GetX(), player.GetY() + 1] == '-')
+                            if (map.tiles[player.GetX(), player.GetY() + 1] == ' ' || map.tiles[player.GetX(), player.GetY() + 1] == '-' || map.tiles[player.GetX(), player.GetY() + 1] == stick.img || map.tiles[player.GetX(), player.GetY() + 1] == cap.img)
                             {
+                                if (map.tiles[player.GetX(), player.GetY()] == stick.img)
+                                {
+                                    player.atk += stick.stat;
+                                    map.tiles[player.GetX(), player.GetY()] = ' ';
+                                    stick.stat = 0;
+                                }
+
+                                if (map.tiles[player.GetX(), player.GetY()] == cap.img)
+                                {
+                                    player.def += cap.stat;
+                                    map.tiles[player.GetX(), player.GetY()] = ' ';
+                                    stick.stat = 0;
+                                }
                                 player.MoveDown();
                             }
                             break;
                         }
                     case ConsoleKey.LeftArrow:
                         {
-                            if (map.tiles[player.GetX() - 1, player.GetY()] == ' ' || map.tiles[player.GetX() - 1, player.GetY()] == '|')
+                            if (map.tiles[player.GetX() - 1, player.GetY()] == ' ' || map.tiles[player.GetX() - 1, player.GetY()] == '|' || map.tiles[player.GetX()-1, player.GetY()] == stick.img || map.tiles[player.GetX()-1, player.GetY()] == cap.img)
                             {
+                                if (map.tiles[player.GetX(), player.GetY()] == stick.img)
+                                {
+                                    player.atk += stick.stat;
+                                    map.tiles[player.GetX(), player.GetY()] = ' ';
+                                    stick.stat = 0;
+                                }
+
+                                if (map.tiles[player.GetX(), player.GetY()] == cap.img)
+                                {
+                                    player.def += cap.stat;
+                                    map.tiles[player.GetX(), player.GetY()] = ' ';
+                                    stick.stat = 0;
+                                }
                                 player.MoveLeft();
                             }
                             break;
                         }
                     case ConsoleKey.RightArrow:
                         {
-                            if (map.tiles[player.GetX() + 1, player.GetY()] == ' ' || map.tiles[player.GetX() + 1, player.GetY()] == '|')
+                            if (map.tiles[player.GetX() + 1, player.GetY()] == ' ' || map.tiles[player.GetX() + 1, player.GetY()] == '|' || map.tiles[player.GetX() + 1, player.GetY()] == stick.img || map.tiles[player.GetX() + 1, player.GetY()] == cap.img)
                             {
+                                if (map.tiles[player.GetX(), player.GetY()] == stick.img)
+                                {
+                                    player.atk += stick.stat;
+                                    map.tiles[player.GetX(), player.GetY()] = ' ';
+                                    stick.stat = 0;
+                                }
+
+                                if (map.tiles[player.GetX(), player.GetY()] == cap.img)
+                                {
+                                    player.def += cap.stat;
+                                    map.tiles[player.GetX(), player.GetY()] = ' ';
+                                    stick.stat = 0;
+                                }
                                 player.MoveRight();
                             }
                             break;
