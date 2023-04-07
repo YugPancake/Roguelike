@@ -128,13 +128,14 @@ namespace Roguelike
             return y;
         }
 
-        public Enemy(int hp, int atk, int def, int classE)
+        public Enemy(int hp, int atk, int def, int gold, int classE)
         {
             if (classE == 1)
             {
                 this.hp = hp * 3;
                 this.atk = atk * 1;
                 this.def = def * 1;
+                this.gold = 4;
                 this.enemyPath = "C:\\Users\\yugbl\\source\\repos\\Roguelike\\Roguelike\\mob1.txt";
             }
 
@@ -143,6 +144,7 @@ namespace Roguelike
                 this.hp = hp * 4;
                 this.atk = atk * 2;
                 this.def = def * 2;
+                this.gold = 8;
                 this.enemyPath = "C:\\Users\\yugbl\\source\\repos\\Roguelike\\Roguelike\\mob2.txt";
             }
             if (classE == 3)
@@ -150,6 +152,7 @@ namespace Roguelike
                 this.hp = hp * 7;
                 this.atk = atk * 10;
                 this.def = def * 1;
+                this.gold = 15;
                 this.enemyPath = "C:\\Users\\yugbl\\source\\repos\\Roguelike\\Roguelike\\mob3.txt";
             }
 
@@ -393,6 +396,7 @@ namespace Roguelike
             if (e1.hp <= 0)
             {
                 Console.Clear();
+                p1.gold += e1.gold;
                 Console.WriteLine("Монстр повержен!!!");
                 Console.WriteLine($"Вы поулчили + {e1.gold} золота");
                 Console.ReadKey();
@@ -429,7 +433,7 @@ namespace Roguelike
         {
             for (int i = 1; i <= 5; i++)
             {
-                var e1 = new Enemy(1, 1, 1, classE);
+                var e1 = new Enemy(1, 1, 1, 1, classE);
                 enemies.Add(e1);
             }
         }
@@ -589,7 +593,7 @@ namespace Roguelike
             Map map = new Map(39, 20);
             map.Draw();
             Player player = new Player(1, 1, 1, 1, 1, 1, 1);
-            Enemy enemy = new Enemy(1, 1, 1, 2);
+            Enemy enemy = new Enemy(1, 1, 1, 1, 1);
             Trader trader = new Trader();
             Fight fight = new Fight();
             int a = 0;
