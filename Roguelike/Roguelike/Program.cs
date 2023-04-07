@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Roguelike
@@ -34,7 +35,7 @@ namespace Roguelike
                 this.hp = hp * 10;
                 this.atk = atk * 2;
                 this.def = def * 1;
-                this.gold = gold * 0;
+                this.gold = gold * 100;
             }
             else if (classP == 2)
             {
@@ -82,6 +83,50 @@ namespace Roguelike
     {
         public int classE;
         public string enemyPath;
+        public int x;
+        public int y;
+
+        public Enemy(int EnemyID)
+        {
+
+            Random ranE1 = new Random();
+            Random ranE2 = new Random();
+            Random ranE3 = new Random();
+
+            int RandE1 = ranE1.Next(1, 4);
+            int RandE2 = ranE2.Next(1, 4);
+            int RandE3 = ranE3.Next(1, 4);
+
+
+            if (EnemyID == 1)
+            {
+                this.classE = RandE1;
+            }
+            if (EnemyID == 2)
+            {
+                this.classE = RandE2;
+            }
+            if (EnemyID == 3)
+            {
+                this.classE = RandE3;
+            }
+
+        }
+
+        public Enemy(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+        public int GetEnemyX()
+        {
+            return x;
+        }
+
+        public int GetEnemyY()
+        {
+            return y;
+        }
 
         public Enemy(int hp, int atk, int def, int classE)
         {
@@ -205,6 +250,10 @@ namespace Roguelike
                             index++;
                             p1.gold -= 10;
                             p1.atk += 4;
+                            Console.WriteLine("Вы получили палку с гвоздями");
+                            Console.WriteLine("- 10 золота");
+                            Console.WriteLine("+ 4 атаки");
+                            Console.ReadKey();
                         }
                         else
                         {
@@ -222,6 +271,10 @@ namespace Roguelike
                             index++;
                             p1.gold -= 25;
                             p1.def += 2;
+                            Console.WriteLine("Вы получили ведро");
+                            Console.WriteLine("- 25 золота");
+                            Console.WriteLine("+ 2 защиты");
+                            Console.ReadKey();
                         }
                         else
                         {
@@ -239,6 +292,10 @@ namespace Roguelike
                             index++;
                             p1.gold -= 50;
                             p1.atk += 4;
+                            Console.WriteLine("Вы получили трубу");
+                            Console.WriteLine("- 50 золота");
+                            Console.WriteLine("+ 4 атаки");
+                            Console.ReadKey();
                         }
                         else
                         {
@@ -255,6 +312,9 @@ namespace Roguelike
                         {
                             index++;
                             p1.gold -= 999;
+                            Console.WriteLine("Вы получили пчелу");
+                            Console.WriteLine("- 999 золота");
+                            Console.ReadKey();
                         }
                         else
                         {
@@ -334,6 +394,7 @@ namespace Roguelike
             {
                 Console.Clear();
                 Console.WriteLine("Монстр повержен!!!");
+                Console.WriteLine($"Вы поулчили + {e1.gold} золота");
                 Console.ReadKey();
                 return 1;
             }
@@ -382,18 +443,23 @@ namespace Roguelike
 
     class Map
     {
+
         public int width;
         public int height;
         public char[,] tiles;
 
         public Map(int width, int height)
         {
+
             this.width = width;
             this.height = height;
             tiles = new char[width, height];
             Generate();
-        }
+            GenerateLeft1();
+            GenerateLeft2();
+            GenerateRight1();
 
+        }
         public void Generate()
         {
             for (int x = 0; x < width; x++)
@@ -411,12 +477,84 @@ namespace Roguelike
                 }
             }
         }
+        public void GenerateLeft1()
+        {
+            for (int x = 1; x < width / 2; x++)
+            {
+                for (int y = 1; y < height / 2; y++)
+                {
+                    tiles[x, y] = '#';
 
+                    if (x == width / 4)
+                    {
+                        tiles[x, y] = '-';
+                    }
+                    if (y == height / 4)
+                    {
+                        tiles[x, y] = '|';
+                    }
+                }
+            }
+            for (int x = 1; x < (width / 2) - 1; x++)
+            {
+                for (int y = 1; y < (height / 2) - 1; y++)
+                {
+                    tiles[x, y] = ' ';
+                }
+            }
+        }
+        public void GenerateLeft2()
+        {
+            for (int x = 1; x < width / 2; x++)
+            {
+                for (int y = 10; y < height - 1; y++)
+                {
+                    tiles[x, y] = '#';
+
+                    if (x == (width / 2) + 4)
+                    {
+                        tiles[x, y] = '-';
+                    }
+                    if (y == (height / 2) + 4)
+                    {
+                        tiles[x, y] = '|';
+                    }
+                }
+            }
+            for (int x = 1; x < (width / 2) - 1; x++)
+            {
+                for (int y = 10; y < (height - 1); y++)
+                {
+                    tiles[x, y] = ' ';
+                }
+            }
+
+        }
+        public void GenerateRight1()
+        {
+            for (int x = 18; x < width - 1; x++)
+            {
+                for (int y = 9; y < height / 2; y++)
+                {
+                    tiles[x, y] = '#';
+
+                    if (x == (width / 2) + 9)
+                    {
+                        tiles[x, y] = '-';
+                    }
+                    if (y == height)
+                    {
+                        tiles[x, y] = '|';
+                    }
+                }
+            }
+
+        }
         public void Draw()
         {
-            for (int x = 0; x < width; x++)
+            for (int y = 0; y < height; y++)
             {
-                for (int y = 0; y < height; y++)
+                for (int x = 0; x < width; x++)
                 {
                     Console.Write(tiles[x, y]);
                 }
@@ -448,12 +586,13 @@ namespace Roguelike
     {
         static void Main(string[] args)
         {
-            Map map = new Map(20, 20);
+            Map map = new Map(39, 20);
             map.Draw();
             Player player = new Player(1, 1, 1, 1, 1, 1, 1);
             Enemy enemy = new Enemy(1, 1, 1, 2);
             Trader trader = new Trader();
             Fight fight = new Fight();
+            int a = 0;
 
             while (true)
             {
@@ -467,8 +606,57 @@ namespace Roguelike
 
                 Console.Write('@');
 
-                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                Thread.Sleep(100);
 
+                while (a < 1)
+                {
+                    Enemy e1 = new Enemy(1);
+                    Enemy e2 = new Enemy(2);
+                    Enemy e3 = new Enemy(3);
+
+                    Random rndXe1 = new Random();
+                    Random rndYe1 = new Random();
+
+
+                    Random rndXe2 = new Random();
+                    Random rndYe2 = new Random();
+
+
+                    Random rndXe3 = new Random();
+                    Random rndYe3 = new Random();
+
+
+                    int enx1 = rndXe1.Next(1, 19);
+                    int eny1 = rndYe1.Next(1, 19);
+
+
+                    int enx2 = rndXe2.Next(1, 19);
+                    int eny2 = rndYe2.Next(1, 19);
+
+
+                    int enx3 = rndXe3.Next(1, 19);
+                    int eny3 = rndYe3.Next(1, 19);
+
+                    e1.x = enx1;
+                    e1.y = eny1;
+                    e2.x = enx2;
+                    e2.y = eny2;
+                    e3.x = enx3;
+                    e3.y = eny3;
+
+                    Console.SetCursorPosition(enx1, eny1);
+                    Console.Write(e1.classE);
+
+                    Console.SetCursorPosition(enx2, eny2);
+                    Console.Write(e2.classE);
+
+                    Console.SetCursorPosition(enx3, eny3);
+                    Console.Write(e3.classE);
+
+                    a += 1;
+                }
+
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 
                 switch (keyInfo.Key)
                 {
