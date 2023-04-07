@@ -666,7 +666,7 @@ namespace Roguelike
                 {
                     case ConsoleKey.UpArrow:
                         {
-                            if (map.tiles[player.GetX(), player.GetY() - 1] == ' ')
+                            if (map.tiles[player.GetX(), player.GetY() - 1] == ' ' || map.tiles[player.GetX(), player.GetY() - 1] == '-')
                             {
                                 player.MoveUp();
                             }
@@ -674,7 +674,7 @@ namespace Roguelike
                         }
                     case ConsoleKey.DownArrow:
                         {
-                            if (map.tiles[player.GetX(), player.GetY() + 1] == ' ')
+                            if (map.tiles[player.GetX(), player.GetY() + 1] == ' ' || map.tiles[player.GetX(), player.GetY() + 1] == '-')
                             {
                                 player.MoveDown();
                             }
@@ -682,7 +682,7 @@ namespace Roguelike
                         }
                     case ConsoleKey.LeftArrow:
                         {
-                            if (map.tiles[player.GetX() - 1, player.GetY()] == ' ')
+                            if (map.tiles[player.GetX() - 1, player.GetY()] == ' ' || map.tiles[player.GetX() - 1, player.GetY()] == '|')
                             {
                                 player.MoveLeft();
                             }
@@ -690,7 +690,7 @@ namespace Roguelike
                         }
                     case ConsoleKey.RightArrow:
                         {
-                            if (map.tiles[player.GetX() + 1, player.GetY()] == ' ')
+                            if (map.tiles[player.GetX() + 1, player.GetY()] == ' ' || map.tiles[player.GetX() + 1, player.GetY()] == '|')
                             {
                                 player.MoveRight();
                             }
