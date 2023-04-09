@@ -108,13 +108,30 @@ namespace Roguelike
             return y;
         }
 
+        public int RSide()
+        {
+            return this.x + 1;
+        }
+
+        public int LSide()
+        {
+            return this.x - 1;
+        }
+        public int USide()
+        {
+            return this.y - 1;
+        }
+        public int DSide()
+        {
+            return this.y + 1;
+        }
         public Enemy(int hp, int atk, int def, int gold, int EnemyID)
         {
            
             int RandE1 = 3;
             Random ranE2 = new Random();
             int RandE2 = ranE2.Next(2, 4);
-            Random ranE3 = new Random(RandE2);
+            Random ranE3 = new Random();
 
             //int RandE1 = ranE1.Next(1, 4);
             //int RandE2 = ranE2.Next(RandE1);
@@ -164,11 +181,10 @@ namespace Roguelike
         public void EWander(int EnemyID)
         {
             Random rnde1 = new Random();
-            Random rnde2 = new Random();
-            Random rnde3 = new Random();
-
             int enw1 = rnde1.Next(1, 5);
+            Random rnde2 = new Random();
             int enw2 = rnde2.Next(1, 5);
+            Random rnde3 = new Random();
             int enw3 = rnde3.Next(1, 5);
 
 
@@ -178,21 +194,25 @@ namespace Roguelike
                 {
                     this.x += 1;
                     this.XMovementValue = 1;
+                    this.YMovementValue = 0;
                 }
                 if (enw1 == 2)
                 {
                     this.x -= 1;
                     this.XMovementValue = -1;
+                    this.YMovementValue = 0;
                 }
                 if (enw1 == 3)
                 {
                     this.y += 1;
                     this.YMovementValue = 1;
+                    this.XMovementValue = 0;
                 }
                 if (enw1 == 4)
                 {
                     this.y -= 1;
                     this.YMovementValue = -1;
+                    this.XMovementValue = 0;
                 }
             }
             if (EnemyID == 2)
@@ -201,21 +221,25 @@ namespace Roguelike
                 {
                     this.x += 1;
                     this.XMovementValue = 1;
+                    this.YMovementValue = 0;
                 }
                 if (enw2 == 2)
                 {
                     this.x -= 1;
                     this.XMovementValue = -1;
+                    this.YMovementValue = 0;
                 }
                 if (enw2 == 3)
                 {
                     this.y += 1;
                     this.YMovementValue = 1;
+                    this.XMovementValue = 0;
                 }
                 if (enw2 == 4)
                 {
                     this.y -= 1;
                     this.YMovementValue = -1;
+                    this.XMovementValue = 0;
                 }
             }
             if (EnemyID == 3)
@@ -224,21 +248,49 @@ namespace Roguelike
                 {
                     this.x += 1;
                     this.XMovementValue = 1;
+                    this.YMovementValue = 0;
                 }
                 if (enw3 == 2)
                 {
                     this.x -= 1;
                     this.XMovementValue = -1;
+                    this.YMovementValue = 0;
                 }
                 if (enw3 == 3)
                 {
                     this.y += 1;
                     this.YMovementValue = 1;
+                    this.XMovementValue = 0;
                 }
                 if (enw3 == 4)
                 {
                     this.y -= 1;
                     this.YMovementValue = -1;
+                    this.XMovementValue = 0;
+                }
+            }
+
+            if (EnemyID == 4)
+            {
+                if (enw3 == 1)
+                {
+                    this.XMovementValue = 1;
+                    this.YMovementValue = 0;
+                }
+                if (enw3 == 2)
+                {
+                    this.XMovementValue = -1;
+                    this.YMovementValue = 0;
+                }
+                if (enw3 == 3)
+                {
+                    this.YMovementValue = 1;
+                    this.XMovementValue = 0;
+                }
+                if (enw3 == 4)
+                {
+                    this.YMovementValue = -1;
+                    this.XMovementValue = 0;
                 }
             }
 
@@ -733,7 +785,7 @@ namespace Roguelike
             Enemy e2 = new Enemy(1,1,1,1,2);
             Enemy e3 = new Enemy(1,1,1,1,3);
 
-            Enemy enemy = new Enemy(1, 1, 1, 1, 1);
+            
             Trader trader = new Trader();
             Fight fight = new Fight();
             Items stick = new Items(1);
@@ -789,6 +841,12 @@ namespace Roguelike
                         int eny1 = rndYe1.Next(11, 18);
                         e1.x = enx1;
                         e1.y = eny1;
+
+                        while (map.tiles[e1.x, e1.y] == '#')
+                        {
+                             enx1 = rndXe1.Next(19, 38);
+                             eny1 = rndYe1.Next(11, 18);
+                        }
                         Console.SetCursorPosition(enx1, eny1);
                         Console.Write(e1.classE);
                     }
@@ -803,6 +861,11 @@ namespace Roguelike
                         int eny2 = rndYe2.Next(2, 9);
                         e2.x = enx2;
                         e2.y = eny2;
+                        while (map.tiles[e2.x, e2.y] == '#')
+                        {
+                            enx2 = rndXe2.Next(19, 37);
+                            eny2 = rndYe2.Next(2, 9);
+                        }
                         Console.SetCursorPosition(enx2, eny2);
                         Console.Write(e2.classE);
                     }
@@ -818,6 +881,11 @@ namespace Roguelike
                         int eny3 = rndYe3.Next(11, 19);
                         e3.x = enx3;
                         e3.y = eny3;
+                        while (map.tiles[e3.x, e3.y] == '#')
+                        {
+                            enx3 = rndXe3.Next(2, 18);
+                            eny3 = rndYe3.Next(11, 19);
+                        }
                         Console.SetCursorPosition(enx3, eny3);
                         Console.Write(e3.classE);
                     }
@@ -828,6 +896,9 @@ namespace Roguelike
                     }
                     a += 1;
                 }
+
+                
+                
                 if (game >= 3)
                 {
                     Console.Clear();
@@ -838,6 +909,7 @@ namespace Roguelike
                     }
                     Environment.Exit(1);
                 }
+               
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 
                 switch (keyInfo.Key)
@@ -878,87 +950,69 @@ namespace Roguelike
                                     map.tiles[player.GetX(), player.GetY()] = ' ';
                                     stick.stat = 0;
                                 }
-                                //player.MoveUp();
-
+                                
                                 if (e1.hp > 0)
                                 {
-                                    if (e1.x + e1.XMovementValue != 0 && e1.x + e1.XMovementValue != 38 && e1.y + e1.YMovementValue != 0 && e1.y + e1.YMovementValue != 19)
+                                    if (map.tiles[e1.RSide(), e1.y] == '#' || map.tiles[e1.LSide(), e1.y] == '#' || map.tiles[e1.x, e1.USide()] == '#' || map.tiles[e1.x, e1.DSide()] == '#')
                                     {
-                                        e1.EWander(1);
-                                    }
 
+                                        e1.EWander(4);
+                                        if (map.tiles[e1.x + e1.XMovementValue, e1.y + e1.YMovementValue] == '#')
+                                        {
+                                            e1.EWander(4);
+                                        }
+                                        else
+                                        {
+                                            e1.x += e1.XMovementValue;
+                                            e1.y += e1.YMovementValue;
+                                        }
 
-                                    else if (e1.x + e1.XMovementValue == 0)
-                                    {
-                                        e1.x += 1;
                                     }
-                                    else if (e1.x + e1.XMovementValue == 38)
-                                    {
-                                        e1.x -= 1;
-                                    }
-                                    else if (e1.y + e1.YMovementValue == 0)
-                                    {
-                                        e1.y += 1;
-                                    }
-                                    else if (e1.y + e1.YMovementValue == 19)
-                                    {
-                                        e1.y -= 1;
-                                    }
+                                    else e1.EWander(1);
+                                   
                                 }
 
                                 if (e2.hp > 0)
                                 {
+                                    if (map.tiles[e2.RSide(), e2.y] == '#' || map.tiles[e2.LSide(), e2.y] == '#' || map.tiles[e2.x, e2.USide()] == '#' || map.tiles[e2.x, e2.DSide()] == '#')
+                                    {
 
-                                    if (e2.x + e2.XMovementValue != 0 && e2.x + e1.XMovementValue != 38 && e2.y + e2.YMovementValue != 0 && e2.y + e2.YMovementValue != 19)
-                                    {
-                                        e2.EWander(2);
-                                    }
+                                        e2.EWander(4);
+                                        if (map.tiles[e2.x + e2.XMovementValue, e2.y + e2.YMovementValue] == '#')
+                                        {
+                                            e2.EWander(4);
+                                        }
+                                        else
+                                        {
+                                            e2.x += e2.XMovementValue;
+                                            e2.y += e2.YMovementValue;
+                                        }
 
+                                    }
+                                    else e2.EWander(2);
 
-                                    else if (e2.x + e2.XMovementValue == 0)
-                                    {
-                                        e2.x += 1;
-                                    }
-                                    else if (e2.x + e2.XMovementValue == 38)
-                                    {
-                                        e2.x -= 1;
-                                    }
-                                    else if (e2.y + e2.YMovementValue == 0)
-                                    {
-                                        e2.y += 1;
-                                    }
-                                    else if (e2.y + e2.YMovementValue == 19)
-                                    {
-                                        e2.y -= 1;
-                                    }
+                                    
                                 }
 
                                 if (e3.hp > 0)
                                 {
+                                    if (map.tiles[e3.RSide(), e3.y] == '#' || map.tiles[e3.LSide(), e3.y] == '#' || map.tiles[e3.x, e3.USide()] == '#' || map.tiles[e3.x, e3.DSide()] == '#')
+                                    {
 
-                                    if (e3.x + e3.XMovementValue != 0 && e3.x + e3.XMovementValue != 38 && e3.y + e3.YMovementValue != 0 && e3.y + e3.YMovementValue != 19)
-                                    {
-                                        e3.EWander(3);
-                                    }
+                                        e3.EWander(4);
+                                        if (map.tiles[e3.x + e3.XMovementValue, e3.y + e3.YMovementValue] == '#')
+                                        {
+                                            e3.EWander(4);
+                                        }
+                                        else
+                                        {
+                                            e3.x += e3.XMovementValue;
+                                            e3.y += e3.YMovementValue;
+                                        }
 
-
-
-                                    else if (e3.x + e3.XMovementValue == 0)
-                                    {
-                                        e3.x += 1;
                                     }
-                                    else if (e3.x + e3.XMovementValue == 38)
-                                    {
-                                        e3.x -= 1;
-                                    }
-                                    else if (e3.y + e3.YMovementValue == 0)
-                                    {
-                                        e3.y += 1;
-                                    }
-                                    else if (e3.y + e3.YMovementValue == 19)
-                                    {
-                                        e3.y -= 1;
-                                    }
+                                    else e3.EWander(3);
+                                    
                                 }
                                 if ((e1.x == (player.x) && e1.y == (player.y)) && e1.hp > 0)
                                 {
@@ -1016,87 +1070,70 @@ namespace Roguelike
                                     map.tiles[player.GetX(), player.GetY()] = ' ';
                                     stick.stat = 0;
                                 }
-                                //player.MoveDown();
-
+                                
                                 if (e1.hp > 0)
                                 {
-                                    if (e1.x + e1.XMovementValue != 0 && e1.x + e1.XMovementValue != 38 && e1.y + e1.YMovementValue != 0 && e1.y + e1.YMovementValue != 19)
+                                    
+                                    if (map.tiles[e1.RSide(), e1.y] == '#' || map.tiles[e1.LSide(), e1.y] == '#' || map.tiles[e1.x, e1.USide()] == '#' || map.tiles[e1.x, e1.DSide()] == '#')
                                     {
-                                        e1.EWander(1);
-                                    }
 
+                                        e1.EWander(4);
+                                        if (map.tiles[e1.x + e1.XMovementValue, e1.y + e1.YMovementValue] == '#')
+                                        {
+                                            e1.EWander(4);
+                                        }
+                                        else
+                                        {
+                                            e1.x += e1.XMovementValue;
+                                            e1.y += e1.YMovementValue;
+                                        }
 
-                                    else if (e1.x + e1.XMovementValue == 0)
-                                    {
-                                        e1.x += 1;
                                     }
-                                    else if (e1.x + e1.XMovementValue == 38)
-                                    {
-                                        e1.x -= 1;
-                                    }
-                                    else if (e1.y + e1.YMovementValue == 0)
-                                    {
-                                        e1.y += 1;
-                                    }
-                                    else if (e1.y + e1.YMovementValue == 19)
-                                    {
-                                        e1.y -= 1;
-                                    }
+                                    else e1.EWander(1);
 
                                 }
                                 if (e2.hp > 0)
                                 {
 
-                                    if (e2.x + e2.XMovementValue != 0 && e2.x + e1.XMovementValue != 38 && e2.y + e2.YMovementValue != 0 && e2.y + e2.YMovementValue != 19)
+                                    
+                                    if (map.tiles[e2.RSide(), e2.y] == '#' || map.tiles[e2.LSide(), e2.y] == '#' || map.tiles[e2.x, e2.USide()] == '#' || map.tiles[e2.x, e2.DSide()] == '#')
                                     {
-                                        e2.EWander(2);
-                                    }
 
+                                        e2.EWander(4);
+                                        if (map.tiles[e2.x + e2.XMovementValue, e2.y + e2.YMovementValue] == '#')
+                                        {
+                                            e2.EWander(4);
+                                        }
+                                        else
+                                        {
+                                            e2.x += e2.XMovementValue;
+                                            e2.y += e2.YMovementValue;
+                                        }
 
-                                    else if (e2.x + e2.XMovementValue == 0)
-                                    {
-                                        e2.x += 1;
                                     }
-                                    else if (e2.x + e2.XMovementValue == 38)
-                                    {
-                                        e2.x -= 1;
-                                    }
-                                    else if (e2.y + e2.YMovementValue == 0)
-                                    {
-                                        e2.y += 1;
-                                    }
-                                    else if (e2.y + e2.YMovementValue == 19)
-                                    {
-                                        e2.y -= 1;
-                                    }
+                                    else e2.EWander(2);
 
                                 }
 
                                 if (e3.hp > 0)
                                 {
-                                    if (e3.x + e3.XMovementValue != 0 && e3.x + e3.XMovementValue != 38 && e3.y + e3.YMovementValue != 0 && e3.y + e3.YMovementValue != 19)
+                                    
+                                    if (map.tiles[e3.RSide(), e3.y] == '#' || map.tiles[e3.LSide(), e3.y] == '#' || map.tiles[e3.x, e3.USide()] == '#' || map.tiles[e3.x, e3.DSide()] == '#')
                                     {
-                                        e3.EWander(3);
-                                    }
 
+                                        e3.EWander(4);
+                                        if (map.tiles[e3.x + e3.XMovementValue, e3.y + e3.YMovementValue] == '#')
+                                        {
+                                            e3.EWander(4);
+                                        }
+                                        else
+                                        {
+                                            e3.x += e3.XMovementValue;
+                                            e3.y += e3.YMovementValue;
+                                        }
 
-
-                                    else if (e3.x + e3.XMovementValue == 0)
-                                    {
-                                        e3.x += 1;
                                     }
-                                    else if (e3.x + e3.XMovementValue == 38)
-                                    {
-                                        e3.x -= 1;
-                                    }
-                                    else if (e3.y + e3.YMovementValue == 0)
-                                    {
-                                        e3.y += 1;
-                                    }
-                                    else if (e3.y + e3.YMovementValue == 19)
-                                    {
-                                        e3.y -= 1;
-                                    }
+                                    else e3.EWander(3);
                                 }
 
 
@@ -1157,32 +1194,27 @@ namespace Roguelike
                                     map.tiles[player.GetX(), player.GetY()] = ' ';
                                     stick.stat = 0;
                                 }
-                                //player.MoveLeft();
+                                
 
                                 if (e1.hp > 0)
                                 {
-                                    if (e1.x + e1.XMovementValue != 0 && e1.x + e1.XMovementValue != 38 && e1.y + e1.YMovementValue != 0 && e1.y + e1.YMovementValue != 19)
+                                    
+                                    if (map.tiles[e1.RSide(), e1.y] == '#' || map.tiles[e1.LSide(), e1.y] == '#' || map.tiles[e1.x, e1.USide()] == '#' || map.tiles[e1.x, e1.DSide()] == '#')
                                     {
-                                        e1.EWander(1);
-                                    }
 
+                                        e1.EWander(4);
+                                        if (map.tiles[e1.x + e1.XMovementValue, e1.y + e1.YMovementValue] == '#')
+                                        {
+                                            e1.EWander(4);
+                                        }
+                                        else
+                                        {
+                                            e1.x += e1.XMovementValue;
+                                            e1.y += e1.YMovementValue;
+                                        }
 
-                                    else if (e1.x + e1.XMovementValue == 0)
-                                    {
-                                        e1.x += 1;
                                     }
-                                    else if (e1.x + e1.XMovementValue == 38)
-                                    {
-                                        e1.x -= 1;
-                                    }
-                                    else if (e1.y + e1.YMovementValue == 0)
-                                    {
-                                        e1.y += 1;
-                                    }
-                                    else if (e1.y + e1.YMovementValue == 19)
-                                    {
-                                        e1.y -= 1;
-                                    }
+                                    else e1.EWander(1);
 
                                 }
 
@@ -1190,57 +1222,46 @@ namespace Roguelike
                                 if (e2.hp > 0)
                                 {
 
-                                    if (e2.x + e2.XMovementValue != 0 && e2.x + e1.XMovementValue != 38 && e2.y + e2.YMovementValue != 0 && e2.y + e2.YMovementValue != 19)
+                                    
+                                    if (map.tiles[e2.RSide(), e2.y] == '#' || map.tiles[e2.LSide(), e2.y] == '#' || map.tiles[e2.x, e2.USide()] == '#' || map.tiles[e2.x, e2.DSide()] == '#')
                                     {
-                                        e2.EWander(2);
-                                    }
 
+                                        e2.EWander(4);
+                                        if (map.tiles[e2.x + e2.XMovementValue, e2.y + e2.YMovementValue] == '#')
+                                        {
+                                            e2.EWander(4);
+                                        }
+                                        else
+                                        {
+                                            e2.x += e2.XMovementValue;
+                                            e2.y += e2.YMovementValue;
+                                        }
 
-                                    else if (e2.x + e2.XMovementValue == 0)
-                                    {
-                                        e2.x += 1;
                                     }
-                                    else if (e2.x + e2.XMovementValue == 38)
-                                    {
-                                        e2.x -= 1;
-                                    }
-                                    else if (e2.y + e2.YMovementValue == 0)
-                                    {
-                                        e2.y += 1;
-                                    }
-                                    else if (e2.y + e2.YMovementValue == 19)
-                                    {
-                                        e2.y -= 1;
-                                    }
+                                    else e2.EWander(2);
 
                                 }
 
                                 if (e3.hp > 0)
                                 {
 
-                                    if (e3.x + e3.XMovementValue != 0 && e3.x + e3.XMovementValue != 38 && e3.y + e3.YMovementValue != 0 && e3.y + e3.YMovementValue != 19)
+                                    
+                                    if (map.tiles[e3.RSide(), e3.y] == '#' || map.tiles[e3.LSide(), e3.y] == '#' || map.tiles[e3.x, e3.USide()] == '#' || map.tiles[e3.x, e3.DSide()] == '#')
                                     {
-                                        e3.EWander(3);
-                                    }
 
+                                        e3.EWander(4);
+                                        if (map.tiles[e3.x + e3.XMovementValue, e3.y + e3.YMovementValue] == '#')
+                                        {
+                                            e3.EWander(4);
+                                        }
+                                        else
+                                        {
+                                            e3.x += e3.XMovementValue;
+                                            e3.y += e3.YMovementValue;
+                                        }
 
-
-                                    else if (e3.x + e3.XMovementValue == 0)
-                                    {
-                                        e3.x += 1;
                                     }
-                                    else if (e3.x + e3.XMovementValue == 38)
-                                    {
-                                        e3.x -= 1;
-                                    }
-                                    else if (e3.y + e3.YMovementValue == 0)
-                                    {
-                                        e3.y += 1;
-                                    }
-                                    else if (e3.y + e3.YMovementValue == 19)
-                                    {
-                                        e3.y -= 1;
-                                    }
+                                    else e3.EWander(3);
                                 }
 
                                 if ((e1.x == (player.x) && e1.y == (player.y)) && e1.hp > 0)
@@ -1300,87 +1321,70 @@ namespace Roguelike
                                     map.tiles[player.GetX(), player.GetY()] = ' ';
                                     stick.stat = 0;
                                 }
-                                //player.MoveRight();
-
+                                
                                 if (e1.hp > 0)
                                 {
-                                    if (e1.x + e1.XMovementValue != 0 && e1.x + e1.XMovementValue != 38 && e1.y + e1.YMovementValue != 0 && e1.y + e1.YMovementValue != 19)
+                                    
+                                    if (map.tiles[e1.RSide(), e1.y] == '#' || map.tiles[e1.LSide(), e1.y] == '#' || map.tiles[e1.x, e1.USide()] == '#' || map.tiles[e1.x, e1.DSide()] == '#')
                                     {
-                                        e1.EWander(1);
-                                    }
 
+                                        e1.EWander(4);
+                                        if (map.tiles[e1.x + e1.XMovementValue, e1.y + e1.YMovementValue] == '#')
+                                        {
+                                            e1.EWander(4);
+                                        }
+                                        else
+                                        {
+                                            e1.x += e1.XMovementValue;
+                                            e1.y += e1.YMovementValue;
+                                        }
 
-                                    else if (e1.x + e1.XMovementValue == 0)
-                                    {
-                                        e1.x += 1;
                                     }
-                                    else if (e1.x + e1.XMovementValue == 38)
-                                    {
-                                        e1.x -= 1;
-                                    }
-                                    else if (e1.y + e1.YMovementValue == 0)
-                                    {
-                                        e1.y += 1;
-                                    }
-                                    else if (e1.y + e1.YMovementValue == 19)
-                                    {
-                                        e1.y -= 1;
-                                    }
+                                    else e1.EWander(1);
 
                                 }
                                 if (e2.hp > 0)
                                 {
-                                    if (e2.x + e2.XMovementValue != 0 && e2.x + e1.XMovementValue != 38 && e2.y + e2.YMovementValue != 0 && e2.y + e2.YMovementValue != 19)
+                                    
+                                    if (map.tiles[e2.RSide(), e2.y] == '#' || map.tiles[e2.LSide(), e2.y] == '#' || map.tiles[e2.x, e2.USide()] == '#' || map.tiles[e2.x, e2.DSide()] == '#')
                                     {
-                                        e2.EWander(2);
-                                    }
 
+                                        e2.EWander(4);
+                                        if (map.tiles[e2.x + e2.XMovementValue, e2.y + e2.YMovementValue] == '#')
+                                        {
+                                            e2.EWander(4);
+                                        }
+                                        else
+                                        {
+                                            e2.x += e2.XMovementValue;
+                                            e2.y += e2.YMovementValue;
+                                        }
 
-                                    else if (e2.x + e2.XMovementValue == 0)
-                                    {
-                                        e2.x += 1;
                                     }
-                                    else if (e2.x + e2.XMovementValue == 38)
-                                    {
-                                        e2.x -= 1;
-                                    }
-                                    else if (e2.y + e2.YMovementValue == 0)
-                                    {
-                                        e2.y += 1;
-                                    }
-                                    else if (e2.y + e2.YMovementValue == 19)
-                                    {
-                                        e2.y -= 1;
-                                    }
+                                    else e2.EWander(2);
                                 }
 
 
 
                                 if (e3.hp > 0)
                                 {
-                                    if (e3.x + e3.XMovementValue != 0 && e3.x + e3.XMovementValue != 38 && e3.y + e3.YMovementValue != 0 && e3.y + e3.YMovementValue != 19)
+                                    
+                                    if (map.tiles[e3.RSide(), e3.y] == '#' || map.tiles[e3.LSide(), e3.y] == '#' || map.tiles[e3.x, e3.USide()] == '#' || map.tiles[e3.x, e3.DSide()] == '#')
                                     {
-                                        e3.EWander(3);
-                                    }
 
+                                        e3.EWander(4);
+                                        if (map.tiles[e3.x + e3.XMovementValue, e3.y + e3.YMovementValue] == '#')
+                                        {
+                                            e3.EWander(4);
+                                        }
+                                        else
+                                        {
+                                            e3.x += e3.XMovementValue;
+                                            e3.y += e3.YMovementValue;
+                                        }
 
-
-                                    else if (e3.x + e3.XMovementValue == 0)
-                                    {
-                                        e3.x += 1;
                                     }
-                                    else if (e3.x + e3.XMovementValue == 38)
-                                    {
-                                        e3.x -= 1;
-                                    }
-                                    else if (e3.y + e3.YMovementValue == 0)
-                                    {
-                                        e3.y += 1;
-                                    }
-                                    else if (e3.y + e3.YMovementValue == 19)
-                                    {
-                                        e3.y -= 1;
-                                    }
+                                    else e3.EWander(3);
 
                                     if ((e1.x == (player.x) && e1.y == (player.y)) && e1.hp > 0)
                                     {
