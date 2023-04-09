@@ -547,8 +547,8 @@ namespace Roguelike
             {
                 Console.Clear();
                 p1.gold += e1.gold;
-                Console.WriteLine("Монстр повержен!!!");
-                Console.WriteLine($"Вы поулчили + {e1.gold} золота");
+                Console.WriteLine("Монстр повержен");
+                Console.WriteLine($"Вы получили + {e1.gold} золота");
                 Console.ReadKey();
                 return 1;
             }
