@@ -25,8 +25,8 @@ namespace Roguelike
     public class Player : Character
     {
         public int classP;
-        private int x;
-        private int y;
+        public int x;
+        public int y;
         public Player(int x, int y, int hp, int atk, int def, int gold, int classP)
         {
             this.x = x;
@@ -84,35 +84,14 @@ namespace Roguelike
     {
         public int classE;
         public string enemyPath;
+
         public int x;
         public int y;
 
-        public Enemy(int EnemyID)
-        {
-
-            Random ranE1 = new Random();
-            Random ranE2 = new Random();
-            Random ranE3 = new Random();
-
-            int RandE1 = ranE1.Next(1, 4);
-            int RandE2 = ranE2.Next(1, 4);
-            int RandE3 = ranE3.Next(1, 4);
+        public int XMovementValue;
+        public int YMovementValue;
 
 
-            if (EnemyID == 1)
-            {
-                this.classE = RandE1;
-            }
-            if (EnemyID == 2)
-            {
-                this.classE = RandE2;
-            }
-            if (EnemyID == 3)
-            {
-                this.classE = RandE3;
-            }
-
-        }
 
         public Enemy(int x, int y)
         {
@@ -129,8 +108,48 @@ namespace Roguelike
             return y;
         }
 
-        public Enemy(int hp, int atk, int def, int gold, int classE)
+        public int RSide()
         {
+            return this.x + 1;
+        }
+
+        public int LSide()
+        {
+            return this.x - 1;
+        }
+        public int USide()
+        {
+            return this.y - 1;
+        }
+        public int DSide()
+        {
+            return this.y + 1;
+        }
+        public Enemy(int hp, int atk, int def, int gold, int EnemyID)
+        {
+
+            int RandE1 = 3;
+            Random ranE2 = new Random();
+            int RandE2 = ranE2.Next(2, 4);
+            Random ranE3 = new Random();
+
+            //int RandE1 = ranE1.Next(1, 4);
+            //int RandE2 = ranE2.Next(RandE1);
+            int RandE3 = ranE3.Next(1, 4);
+
+            if (EnemyID == 1)
+            {
+                this.classE = RandE1;
+            }
+            if (EnemyID == 2)
+            {
+                this.classE = RandE2;
+            }
+            if (EnemyID == 3)
+            {
+                this.classE = RandE3;
+            }
+
             if (classE == 1)
             {
                 this.hp = hp * 3;
@@ -159,6 +178,123 @@ namespace Roguelike
 
 
         }
+        public void EWander(int EnemyID)
+        {
+            Random rnde1 = new Random();
+            int enw1 = rnde1.Next(1, 5);
+            Random rnde2 = new Random();
+            int enw2 = rnde2.Next(1, 5);
+            Random rnde3 = new Random();
+            int enw3 = rnde3.Next(1, 5);
+
+
+            if (EnemyID == 1)
+            {
+                if (enw1 == 1)
+                {
+                    this.x += 1;
+                    this.XMovementValue = 1;
+                    this.YMovementValue = 0;
+                }
+                if (enw1 == 2)
+                {
+                    this.x -= 1;
+                    this.XMovementValue = -1;
+                    this.YMovementValue = 0;
+                }
+                if (enw1 == 3)
+                {
+                    this.y += 1;
+                    this.YMovementValue = 1;
+                    this.XMovementValue = 0;
+                }
+                if (enw1 == 4)
+                {
+                    this.y -= 1;
+                    this.YMovementValue = -1;
+                    this.XMovementValue = 0;
+                }
+            }
+            if (EnemyID == 2)
+            {
+                if (enw2 == 1)
+                {
+                    this.x += 1;
+                    this.XMovementValue = 1;
+                    this.YMovementValue = 0;
+                }
+                if (enw2 == 2)
+                {
+                    this.x -= 1;
+                    this.XMovementValue = -1;
+                    this.YMovementValue = 0;
+                }
+                if (enw2 == 3)
+                {
+                    this.y += 1;
+                    this.YMovementValue = 1;
+                    this.XMovementValue = 0;
+                }
+                if (enw2 == 4)
+                {
+                    this.y -= 1;
+                    this.YMovementValue = -1;
+                    this.XMovementValue = 0;
+                }
+            }
+            if (EnemyID == 3)
+            {
+                if (enw3 == 1)
+                {
+                    this.x += 1;
+                    this.XMovementValue = 1;
+                    this.YMovementValue = 0;
+                }
+                if (enw3 == 2)
+                {
+                    this.x -= 1;
+                    this.XMovementValue = -1;
+                    this.YMovementValue = 0;
+                }
+                if (enw3 == 3)
+                {
+                    this.y += 1;
+                    this.YMovementValue = 1;
+                    this.XMovementValue = 0;
+                }
+                if (enw3 == 4)
+                {
+                    this.y -= 1;
+                    this.YMovementValue = -1;
+                    this.XMovementValue = 0;
+                }
+            }
+
+            if (EnemyID == 4)
+            {
+                if (enw3 == 1)
+                {
+                    this.XMovementValue = 1;
+                    this.YMovementValue = 0;
+                }
+                if (enw3 == 2)
+                {
+                    this.XMovementValue = -1;
+                    this.YMovementValue = 0;
+                }
+                if (enw3 == 3)
+                {
+                    this.YMovementValue = 1;
+                    this.XMovementValue = 0;
+                }
+                if (enw3 == 4)
+                {
+                    this.YMovementValue = -1;
+                    this.XMovementValue = 0;
+                }
+            }
+
+        }
     }
 
     public class Items
@@ -172,22 +308,26 @@ namespace Roguelike
         public int stat;
         public Items(int id)
         {
+            Random sticX = new Random();
+            Random sticY = new Random();
+            Random capX = new Random();
+            Random capY = new Random();
             switch (id)
             {
                 case 1:
                     this.img = '/'; // атк +2 на карте
                     this.name = "Палка";
                     this.massage = "Просто палка.";
-                    this.x = 5;
-                    this.y = 3;
+                    this.x = sticX.Next(2, 14);
+                    this.y = sticY.Next(2, 5);
                     this.stat = 2;
                     break;
                 case 2:
                     this.img = 'Ô'; // дф +2 на карте
                     this.name = "Крышка от кастрюли";
                     this.massage = "А где сама кастрюля?";
-                    this.x = 12;
-                    this.y = 6;
+                    this.x = capX.Next(6, 15);
+                    this.y = capY.Next(5, 9);
                     this.stat = 2;
                     break;
                 case 3:
@@ -258,7 +398,7 @@ namespace Roguelike
                 switch (index)
                 {
                     case 1:
-                        if(p1.gold >= 10)
+                        if (p1.gold >= 10)
                         {
                             index++;
                             p1.gold -= 10;
@@ -640,12 +780,23 @@ namespace Roguelike
             Map map = new Map(39, 20);
             map.Draw();
             Player player = new Player(1, 1, 1, 1, 1, 1, 1);
-            Enemy enemy = new Enemy(1, 1, 1, 1, 1);
+
+            Enemy e1 = new Enemy(1, 1, 1, 1, 1);
+            Enemy e2 = new Enemy(1, 1, 1, 1, 2);
+            Enemy e3 = new Enemy(1, 1, 1, 1, 3);
+
+
             Trader trader = new Trader();
             Fight fight = new Fight();
             Items stick = new Items(1);
             Items cap = new Items(2);
             int a = 0;
+            int game = 0;
+
+
+            string[] youWinLines;
+            string youWinPath = "C:\\Users\\yugbl\\source\\repos\\Roguelike\\Roguelike\\youwin.txt";
+
 
             while (true)
             {
@@ -659,14 +810,20 @@ namespace Roguelike
 
                 Console.Write('@');
 
+
+                Console.SetCursorPosition(e1.GetEnemyX(), e1.GetEnemyY());
+                Console.Write(e1.classE);
+
+                Console.SetCursorPosition(e2.GetEnemyX(), e2.GetEnemyY());
+                Console.Write(e2.classE);
+
+                Console.SetCursorPosition(e3.GetEnemyX(), e3.GetEnemyY());
+                Console.Write(e3.classE);
+
                 Thread.Sleep(100);
 
                 while (a < 1)
                 {
-                    Enemy e1 = new Enemy(1);
-                    Enemy e2 = new Enemy(2);
-                    Enemy e3 = new Enemy(3);
-
                     Random rndXe1 = new Random();
                     Random rndYe1 = new Random();
 
@@ -678,35 +835,80 @@ namespace Roguelike
                     Random rndXe3 = new Random();
                     Random rndYe3 = new Random();
 
+                    if (e1.hp > 0)
+                    {
+                        int enx1 = rndXe1.Next(19, 38);
+                        int eny1 = rndYe1.Next(11, 18);
+                        e1.x = enx1;
+                        e1.y = eny1;
 
-                    int enx1 = rndXe1.Next(1, 19);
-                    int eny1 = rndYe1.Next(1, 19);
+                        while (map.tiles[e1.x, e1.y] == '#')
+                        {
+                            enx1 = rndXe1.Next(19, 38);
+                            eny1 = rndYe1.Next(11, 18);
+                        }
+                        Console.SetCursorPosition(enx1, eny1);
+                        Console.Write(e1.classE);
+                    }
+                    else
+                    {
+                        Console.SetCursorPosition(e1.x, e1.y);
+                        Console.Write(" ");
+                    }
 
+                    if (e2.hp > 0)
+                    {
+                        int enx2 = rndXe2.Next(19, 37);
+                        int eny2 = rndYe2.Next(2, 9);
+                        e2.x = enx2;
+                        e2.y = eny2;
+                        while (map.tiles[e2.x, e2.y] == '#')
+                        {
+                            enx2 = rndXe2.Next(19, 37);
+                            eny2 = rndYe2.Next(2, 9);
+                        }
+                        Console.SetCursorPosition(enx2, eny2);
+                        Console.Write(e2.classE);
+                    }
+                    else
+                    {
+                        Console.SetCursorPosition(e2.x, e2.y);
+                        Console.Write(" ");
+                    }
 
-                    int enx2 = rndXe2.Next(1, 19);
-                    int eny2 = rndYe2.Next(1, 19);
-
-
-                    int enx3 = rndXe3.Next(1, 19);
-                    int eny3 = rndYe3.Next(1, 19);
-
-                    e1.x = enx1;
-                    e1.y = eny1;
-                    e2.x = enx2;
-                    e2.y = eny2;
-                    e3.x = enx3;
-                    e3.y = eny3;
-
-                    Console.SetCursorPosition(enx1, eny1);
-                    Console.Write(e1.classE);
-
-                    Console.SetCursorPosition(enx2, eny2);
-                    Console.Write(e2.classE);
-
-                    Console.SetCursorPosition(enx3, eny3);
-                    Console.Write(e3.classE);
-
+                    if (e3.hp > 0)
+                    {
+                        int enx3 = rndXe3.Next(2, 18);
+                        int eny3 = rndYe3.Next(11, 19);
+                        e3.x = enx3;
+                        e3.y = eny3;
+                        while (map.tiles[e3.x, e3.y] == '#')
+                        {
+                            enx3 = rndXe3.Next(2, 18);
+                            eny3 = rndYe3.Next(11, 19);
+                        }
+                        Console.SetCursorPosition(enx3, eny3);
+                        Console.Write(e3.classE);
+                    }
+                    else
+                    {
+                        Console.SetCursorPosition(e3.x, e3.y);
+                        Console.Write(" ");
+                    }
                     a += 1;
+                }
+
+
+
+                if (game >= 3)
+                {
+                    Console.Clear();
+                    youWinLines = File.ReadAllLines(youWinPath);
+                    foreach (string s in youWinLines)
+                    {
+                        Console.WriteLine(s);
+                    }
+                    Environment.Exit(1);
                 }
 
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
@@ -715,8 +917,27 @@ namespace Roguelike
                 {
                     case ConsoleKey.UpArrow:
                         {
-                            if (map.tiles[player.GetX(), player.GetY() - 1] == ' ' || map.tiles[player.GetX(), player.GetY() - 1] == '-' || map.tiles[player.GetX(), player.GetY() - 1] == stick.img || map.tiles[player.GetX(), player.GetY() - 1] == cap.img)
+                            if (map.tiles[player.GetX(), player.GetY() - 1] == ' ' || map.tiles[player.GetX(), player.GetY() - 1] == '-' || map.tiles[player.GetX(), player.GetY() - 1] == stick.img || map.tiles[player.GetX(), player.GetY() - 1] == cap.img || (e1.x == (player.x) && e1.y == (player.y) - 1) || (e2.x == (player.x) && e2.y == (player.y) - 1) || (e3.x == (player.x) && e3.y == (player.y) - 1))
                             {
+                                player.MoveUp();
+
+
+                                if ((e1.x == (player.x) && e1.y == (player.y)) && e1.hp > 0)
+                                {
+                                    fight.start(player, e1);
+                                    game += fight.start(player, e1);
+                                }
+                                if ((e2.x == (player.x) && e2.y == (player.y)) && e2.hp > 0)
+                                {
+                                    fight.start(player, e2);
+                                    game += fight.start(player, e2);
+                                }
+                                if ((e3.x == (player.x) && e3.y == (player.y)) && e3.hp > 0)
+                                {
+                                    fight.start(player, e3);
+                                    game += fight.start(player, e3);
+                                }
+
                                 if (map.tiles[player.GetX(), player.GetY()] == stick.img)
                                 {
                                     player.atk += stick.stat;
@@ -730,14 +951,113 @@ namespace Roguelike
                                     map.tiles[player.GetX(), player.GetY()] = ' ';
                                     stick.stat = 0;
                                 }
-                                player.MoveUp();
+
+                                if (e1.hp > 0)
+                                {
+                                    if (map.tiles[e1.RSide(), e1.y] == '#' || map.tiles[e1.LSide(), e1.y] == '#' || map.tiles[e1.x, e1.USide()] == '#' || map.tiles[e1.x, e1.DSide()] == '#')
+                                    {
+
+                                        e1.EWander(4);
+                                        if (map.tiles[e1.x + e1.XMovementValue, e1.y + e1.YMovementValue] == '#')
+                                        {
+                                            e1.EWander(4);
+                                        }
+                                        else
+                                        {
+                                            e1.x += e1.XMovementValue;
+                                            e1.y += e1.YMovementValue;
+                                        }
+
+                                    }
+                                    else e1.EWander(1);
+
+                                }
+
+                                if (e2.hp > 0)
+                                {
+                                    if (map.tiles[e2.RSide(), e2.y] == '#' || map.tiles[e2.LSide(), e2.y] == '#' || map.tiles[e2.x, e2.USide()] == '#' || map.tiles[e2.x, e2.DSide()] == '#')
+                                    {
+
+                                        e2.EWander(4);
+                                        if (map.tiles[e2.x + e2.XMovementValue, e2.y + e2.YMovementValue] == '#')
+                                        {
+                                            e2.EWander(4);
+                                        }
+                                        else
+                                        {
+                                            e2.x += e2.XMovementValue;
+                                            e2.y += e2.YMovementValue;
+                                        }
+
+                                    }
+                                    else e2.EWander(2);
+
+
+                                }
+
+                                if (e3.hp > 0)
+                                {
+                                    if (map.tiles[e3.RSide(), e3.y] == '#' || map.tiles[e3.LSide(), e3.y] == '#' || map.tiles[e3.x, e3.USide()] == '#' || map.tiles[e3.x, e3.DSide()] == '#')
+                                    {
+
+                                        e3.EWander(4);
+                                        if (map.tiles[e3.x + e3.XMovementValue, e3.y + e3.YMovementValue] == '#')
+                                        {
+                                            e3.EWander(4);
+                                        }
+                                        else
+                                        {
+                                            e3.x += e3.XMovementValue;
+                                            e3.y += e3.YMovementValue;
+                                        }
+
+                                    }
+                                    else e3.EWander(3);
+
+                                }
+                                if ((e1.x == (player.x) && e1.y == (player.y)) && e1.hp > 0)
+                                {
+                                    fight.start(player, e1);
+                                    game += fight.start(player, e1);
+                                }
+                                if ((e2.x == (player.x) && e2.y == (player.y)) && e2.hp > 0)
+                                {
+                                    fight.start(player, e2);
+                                    game += fight.start(player, e2);
+                                }
+                                if ((e3.x == (player.x) && e3.y == (player.y)) && e2.hp > 0)
+                                {
+                                    fight.start(player, e3);
+                                    game += fight.start(player, e3);
+                                }
                             }
+
+
+
                             break;
                         }
                     case ConsoleKey.DownArrow:
                         {
-                            if (map.tiles[player.GetX(), player.GetY() + 1] == ' ' || map.tiles[player.GetX(), player.GetY() + 1] == '-' || map.tiles[player.GetX(), player.GetY() + 1] == stick.img || map.tiles[player.GetX(), player.GetY() + 1] == cap.img)
+                            if (map.tiles[player.GetX(), player.GetY() + 1] == ' ' || map.tiles[player.GetX(), player.GetY() + 1] == '-' || map.tiles[player.GetX(), player.GetY() + 1] == stick.img || map.tiles[player.GetX(), player.GetY() + 1] == cap.img || (e1.x == (player.x) && e1.y == (player.y) + 1) || (e2.x == (player.x) && e2.y == (player.y) + 1) || (e3.x == (player.x) && e3.y == (player.y) + 1))
                             {
+                                player.MoveDown();
+
+                                if ((e1.x == (player.x) && e1.y == (player.y) && e1.hp > 0))
+                                {
+                                    fight.start(player, e1);
+                                    game += fight.start(player, e1);
+                                }
+                                if ((e2.x == (player.x) && e2.y == (player.y) && e2.hp > 0))
+                                {
+                                    fight.start(player, e2);
+                                    game += fight.start(player, e2);
+                                }
+                                if ((e3.x == (player.x) && e3.y == (player.y) && e3.hp > 0))
+                                {
+                                    fight.start(player, e3);
+                                    game += fight.start(player, e3);
+                                }
+
                                 if (map.tiles[player.GetX(), player.GetY()] == stick.img)
                                 {
                                     player.atk += stick.stat;
@@ -751,14 +1071,117 @@ namespace Roguelike
                                     map.tiles[player.GetX(), player.GetY()] = ' ';
                                     stick.stat = 0;
                                 }
-                                player.MoveDown();
+
+                                if (e1.hp > 0)
+                                {
+
+                                    if (map.tiles[e1.RSide(), e1.y] == '#' || map.tiles[e1.LSide(), e1.y] == '#' || map.tiles[e1.x, e1.USide()] == '#' || map.tiles[e1.x, e1.DSide()] == '#')
+                                    {
+
+                                        e1.EWander(4);
+                                        if (map.tiles[e1.x + e1.XMovementValue, e1.y + e1.YMovementValue] == '#')
+                                        {
+                                            e1.EWander(4);
+                                        }
+                                        else
+                                        {
+                                            e1.x += e1.XMovementValue;
+                                            e1.y += e1.YMovementValue;
+                                        }
+
+                                    }
+                                    else e1.EWander(1);
+
+                                }
+                                if (e2.hp > 0)
+                                {
+
+
+                                    if (map.tiles[e2.RSide(), e2.y] == '#' || map.tiles[e2.LSide(), e2.y] == '#' || map.tiles[e2.x, e2.USide()] == '#' || map.tiles[e2.x, e2.DSide()] == '#')
+                                    {
+
+                                        e2.EWander(4);
+                                        if (map.tiles[e2.x + e2.XMovementValue, e2.y + e2.YMovementValue] == '#')
+                                        {
+                                            e2.EWander(4);
+                                        }
+                                        else
+                                        {
+                                            e2.x += e2.XMovementValue;
+                                            e2.y += e2.YMovementValue;
+                                        }
+
+                                    }
+                                    else e2.EWander(2);
+
+                                }
+
+                                if (e3.hp > 0)
+                                {
+
+                                    if (map.tiles[e3.RSide(), e3.y] == '#' || map.tiles[e3.LSide(), e3.y] == '#' || map.tiles[e3.x, e3.USide()] == '#' || map.tiles[e3.x, e3.DSide()] == '#')
+                                    {
+
+                                        e3.EWander(4);
+                                        if (map.tiles[e3.x + e3.XMovementValue, e3.y + e3.YMovementValue] == '#')
+                                        {
+                                            e3.EWander(4);
+                                        }
+                                        else
+                                        {
+                                            e3.x += e3.XMovementValue;
+                                            e3.y += e3.YMovementValue;
+                                        }
+
+                                    }
+                                    else e3.EWander(3);
+                                }
+
+
+                                if ((e1.x == (player.x) && e1.y == (player.y)) && e1.hp > 0)
+                                {
+                                    fight.start(player, e1);
+                                    game += fight.start(player, e1);
+
+                                }
+                                if ((e2.x == (player.x) && e2.y == (player.y)) && e2.hp > 0)
+                                {
+                                    fight.start(player, e2);
+                                    game += fight.start(player, e2);
+                                }
+                                if ((e3.x == (player.x) && e3.y == (player.y)) && e3.hp > 0)
+                                {
+                                    fight.start(player, e3);
+                                    game += fight.start(player, e3);
+                                }
                             }
+
+
+
                             break;
                         }
                     case ConsoleKey.LeftArrow:
                         {
-                            if (map.tiles[player.GetX() - 1, player.GetY()] == ' ' || map.tiles[player.GetX() - 1, player.GetY()] == '|' || map.tiles[player.GetX()-1, player.GetY()] == stick.img || map.tiles[player.GetX()-1, player.GetY()] == cap.img)
+                            if (map.tiles[player.GetX() - 1, player.GetY()] == ' ' || map.tiles[player.GetX() - 1, player.GetY()] == '|' || map.tiles[player.GetX() - 1, player.GetY()] == stick.img || map.tiles[player.GetX() - 1, player.GetY()] == cap.img || (e1.x == (player.x) - 1 && e1.y == (player.y)) || (e2.x == (player.x) - 1 && e2.y == (player.y)) || (e3.x == (player.x) - 1 && e3.y == (player.y)))
                             {
+                                player.MoveLeft();
+
+                                if ((e1.x == (player.x) && e1.y == (player.y)) && e1.hp > 0)
+                                {
+                                    fight.start(player, e1);
+                                    game += fight.start(player, e1);
+                                }
+                                if ((e2.x == (player.x) && e2.y == (player.y)) && e2.hp > 0)
+                                {
+                                    fight.start(player, e2);
+                                    game += fight.start(player, e2);
+                                }
+                                if ((e3.x == (player.x) && e3.y == (player.y)) && e3.hp > 0)
+                                {
+                                    fight.start(player, e3);
+                                    game += fight.start(player, e3);
+                                }
+
                                 if (map.tiles[player.GetX(), player.GetY()] == stick.img)
                                 {
                                     player.atk += stick.stat;
@@ -772,14 +1195,120 @@ namespace Roguelike
                                     map.tiles[player.GetX(), player.GetY()] = ' ';
                                     stick.stat = 0;
                                 }
-                                player.MoveLeft();
+
+
+                                if (e1.hp > 0)
+                                {
+
+                                    if (map.tiles[e1.RSide(), e1.y] == '#' || map.tiles[e1.LSide(), e1.y] == '#' || map.tiles[e1.x, e1.USide()] == '#' || map.tiles[e1.x, e1.DSide()] == '#')
+                                    {
+
+                                        e1.EWander(4);
+                                        if (map.tiles[e1.x + e1.XMovementValue, e1.y + e1.YMovementValue] == '#')
+                                        {
+                                            e1.EWander(4);
+                                        }
+                                        else
+                                        {
+                                            e1.x += e1.XMovementValue;
+                                            e1.y += e1.YMovementValue;
+                                        }
+
+                                    }
+                                    else e1.EWander(1);
+
+                                }
+
+
+                                if (e2.hp > 0)
+                                {
+
+
+                                    if (map.tiles[e2.RSide(), e2.y] == '#' || map.tiles[e2.LSide(), e2.y] == '#' || map.tiles[e2.x, e2.USide()] == '#' || map.tiles[e2.x, e2.DSide()] == '#')
+                                    {
+
+                                        e2.EWander(4);
+                                        if (map.tiles[e2.x + e2.XMovementValue, e2.y + e2.YMovementValue] == '#')
+                                        {
+                                            e2.EWander(4);
+                                        }
+                                        else
+                                        {
+                                            e2.x += e2.XMovementValue;
+                                            e2.y += e2.YMovementValue;
+                                        }
+
+                                    }
+                                    else e2.EWander(2);
+
+                                }
+
+                                if (e3.hp > 0)
+                                {
+
+
+                                    if (map.tiles[e3.RSide(), e3.y] == '#' || map.tiles[e3.LSide(), e3.y] == '#' || map.tiles[e3.x, e3.USide()] == '#' || map.tiles[e3.x, e3.DSide()] == '#')
+                                    {
+
+                                        e3.EWander(4);
+                                        if (map.tiles[e3.x + e3.XMovementValue, e3.y + e3.YMovementValue] == '#')
+                                        {
+                                            e3.EWander(4);
+                                        }
+                                        else
+                                        {
+                                            e3.x += e3.XMovementValue;
+                                            e3.y += e3.YMovementValue;
+                                        }
+
+                                    }
+                                    else e3.EWander(3);
+                                }
+
+                                if ((e1.x == (player.x) && e1.y == (player.y)) && e1.hp > 0)
+                                {
+                                    fight.start(player, e1);
+                                    game += fight.start(player, e1);
+                                }
+                                if ((e2.x == (player.x) && e2.y == (player.y)) && e2.hp > 0)
+                                {
+                                    fight.start(player, e2);
+                                    game += fight.start(player, e2);
+                                }
+                                if ((e3.x == (player.x) && e3.y == (player.y)) && e3.hp > 0)
+                                {
+                                    fight.start(player, e3);
+                                    game += fight.start(player, e3);
+                                }
                             }
+
+
+
                             break;
                         }
+
                     case ConsoleKey.RightArrow:
                         {
-                            if (map.tiles[player.GetX() + 1, player.GetY()] == ' ' || map.tiles[player.GetX() + 1, player.GetY()] == '|' || map.tiles[player.GetX() + 1, player.GetY()] == stick.img || map.tiles[player.GetX() + 1, player.GetY()] == cap.img)
+                            if (map.tiles[player.GetX() + 1, player.GetY()] == ' ' || map.tiles[player.GetX() + 1, player.GetY()] == '|' || map.tiles[player.GetX() + 1, player.GetY()] == stick.img || map.tiles[player.GetX() + 1, player.GetY()] == cap.img || (e1.x == (player.x) + 1 && e1.y == (player.y)) || (e2.x == (player.x) + 1 && e2.y == (player.y)) || (e3.x == (player.x) + 1 && e3.y == (player.y)))
                             {
+                                player.MoveRight();
+
+                                if ((e1.x == (player.x) && e1.y == (player.y)) && e1.hp > 0)
+                                {
+                                    fight.start(player, e1);
+                                    game += fight.start(player, e1);
+                                }
+                                if ((e2.x == (player.x) && e2.y == (player.y)) && e2.hp > 0)
+                                {
+                                    fight.start(player, e2);
+                                    game += fight.start(player, e2);
+                                }
+                                if ((e3.x == (player.x) && e3.y == (player.y)) && e3.hp > 0)
+                                {
+                                    fight.start(player, e3);
+                                    game += fight.start(player, e3);
+                                }
+
                                 if (map.tiles[player.GetX(), player.GetY()] == stick.img)
                                 {
                                     player.atk += stick.stat;
@@ -793,10 +1322,94 @@ namespace Roguelike
                                     map.tiles[player.GetX(), player.GetY()] = ' ';
                                     stick.stat = 0;
                                 }
-                                player.MoveRight();
+
+                                if (e1.hp > 0)
+                                {
+
+                                    if (map.tiles[e1.RSide(), e1.y] == '#' || map.tiles[e1.LSide(), e1.y] == '#' || map.tiles[e1.x, e1.USide()] == '#' || map.tiles[e1.x, e1.DSide()] == '#')
+                                    {
+
+                                        e1.EWander(4);
+                                        if (map.tiles[e1.x + e1.XMovementValue, e1.y + e1.YMovementValue] == '#')
+                                        {
+                                            e1.EWander(4);
+                                        }
+                                        else
+                                        {
+                                            e1.x += e1.XMovementValue;
+                                            e1.y += e1.YMovementValue;
+                                        }
+
+                                    }
+                                    else e1.EWander(1);
+
+                                }
+                                if (e2.hp > 0)
+                                {
+
+                                    if (map.tiles[e2.RSide(), e2.y] == '#' || map.tiles[e2.LSide(), e2.y] == '#' || map.tiles[e2.x, e2.USide()] == '#' || map.tiles[e2.x, e2.DSide()] == '#')
+                                    {
+
+                                        e2.EWander(4);
+                                        if (map.tiles[e2.x + e2.XMovementValue, e2.y + e2.YMovementValue] == '#')
+                                        {
+                                            e2.EWander(4);
+                                        }
+                                        else
+                                        {
+                                            e2.x += e2.XMovementValue;
+                                            e2.y += e2.YMovementValue;
+                                        }
+
+                                    }
+                                    else e2.EWander(2);
+                                }
+
+
+
+                                if (e3.hp > 0)
+                                {
+
+                                    if (map.tiles[e3.RSide(), e3.y] == '#' || map.tiles[e3.LSide(), e3.y] == '#' || map.tiles[e3.x, e3.USide()] == '#' || map.tiles[e3.x, e3.DSide()] == '#')
+                                    {
+
+                                        e3.EWander(4);
+                                        if (map.tiles[e3.x + e3.XMovementValue, e3.y + e3.YMovementValue] == '#')
+                                        {
+                                            e3.EWander(4);
+                                        }
+                                        else
+                                        {
+                                            e3.x += e3.XMovementValue;
+                                            e3.y += e3.YMovementValue;
+                                        }
+
+                                    }
+                                    else e3.EWander(3);
+
+                                    if ((e1.x == (player.x) && e1.y == (player.y)) && e1.hp > 0)
+                                    {
+                                        fight.start(player, e1);
+                                        game += fight.start(player, e1);
+                                    }
+                                    if ((e2.x == (player.x) && e2.y == (player.y)) && e2.hp > 0)
+                                    {
+                                        fight.start(player, e2);
+                                        game += fight.start(player, e2);
+                                    }
+                                    if ((e3.x == (player.x) && e3.y == (player.y)) && e2.hp > 0)
+                                    {
+                                        fight.start(player, e3);
+                                        game += fight.start(player, e3);
+                                    }
+                                }
                             }
+
+
+
                             break;
                         }
+
                     case ConsoleKey.S:
                         {
                             Console.Clear();
@@ -805,7 +1418,7 @@ namespace Roguelike
                         }
                     case ConsoleKey.F:
                         {
-                            fight.start(player, enemy);
+                            fight.start(player, e1);
                             break;
                         }
                 }
@@ -813,4 +1426,3 @@ namespace Roguelike
         }
     }
 }
-   
