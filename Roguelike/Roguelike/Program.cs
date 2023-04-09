@@ -91,32 +91,7 @@ namespace Roguelike
         public int XMovementValue;
         public int YMovementValue;
 
-        /*public Enemy(int EnemyID)
-        {
-
-            Random ranE1 = new Random();
-            Random ranE2 = new Random();
-            Random ranE3 = new Random();
-
-            int RandE1 = ranE1.Next(1, 4);
-            int RandE2 = ranE2.Next(1, 4);
-            int RandE3 = ranE3.Next(1, 4);
-
-
-            if (EnemyID == 1)
-            {
-                this.classE = RandE1;
-            }
-            if (EnemyID == 2)
-            {
-                this.classE = RandE2;
-            }
-            if (EnemyID == 3)
-            {
-                this.classE = RandE3;
-            }
-
-        }*/
+       
 
         public Enemy(int x, int y)
         {
@@ -135,13 +110,15 @@ namespace Roguelike
 
         public Enemy(int hp, int atk, int def, int gold, int EnemyID)
         {
-            Random ranE1 = new Random();
+           
+            int RandE1 = 3;
             Random ranE2 = new Random();
-            Random ranE3 = new Random();
+            int RandE2 = ranE2.Next(2, 4);
+            Random ranE3 = new Random(RandE2);
 
-            int RandE1 = ranE1.Next(1, 4);
-            int RandE2 = ranE2.Next(1, 4);
-            int RandE3 = ranE3.Next(1, 4);
+            //int RandE1 = ranE1.Next(1, 4);
+            //int RandE2 = ranE2.Next(RandE1);
+            int RandE3 = ranE3.Next(1,4);
 
             if (EnemyID == 1)
             {
@@ -279,22 +256,26 @@ namespace Roguelike
         public int stat;
         public Items(int id)
         {
+            Random sticX = new Random();
+            Random sticY = new Random();
+            Random capX = new Random();
+            Random capY = new Random();
             switch (id)
             {
                 case 1:
                     this.img = '/'; // атк +2 на карте
                     this.name = "Палка";
                     this.massage = "Просто палка.";
-                    this.x = 5;
-                    this.y = 3;
+                    this.x = sticX.Next(2, 14);
+                    this.y = sticY.Next(2, 5);
                     this.stat = 2;
                     break;
                 case 2:
                     this.img = 'Ô'; // дф +2 на карте
                     this.name = "Крышка от кастрюли";
                     this.massage = "А где сама кастрюля?";
-                    this.x = 12;
-                    this.y = 6;
+                    this.x = capX.Next(6, 15);
+                    this.y = capY.Next(5, 9);
                     this.stat = 2;
                     break;
                 case 3:
@@ -350,13 +331,13 @@ namespace Roguelike
 
         public void tradeWindow(Player p1)
         {
-            tradePath = $"C:\\Users\\yugbl\\source\\repos\\Roguelike\\Roguelike\\trader{index}.txt";
+            tradePath = $"C:\\Users\\1\\source\\repos\\rhrth\\Roguelike\\trader{index}.txt";
             tradeLines = File.ReadAllLines(tradePath);
             foreach (string s in tradeLines)
             {
                 Console.WriteLine(s);
             }
-            noGoldPath = "C:\\Users\\yugbl\\source\\repos\\Roguelike\\Roguelike\\nogold.txt";
+            noGoldPath = "C:\\Users\\1\\source\\repos\\бой без выигрыша\\Roguelike\\nogold.txt";
             noGoldLines = File.ReadAllLines(noGoldPath);
 
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
@@ -760,6 +741,11 @@ namespace Roguelike
             int a = 0;
             int game = 0;
 
+            
+            string[] youWinLines;
+            string youWinPath = "C:\\Users\\1\\source\\repos\\rhrth\\Roguelike\\youwin.txt";
+        
+
             while (true)
             {
                 Console.Clear();
@@ -797,40 +783,61 @@ namespace Roguelike
                     Random rndXe3 = new Random();
                     Random rndYe3 = new Random();
 
+                    if (e1.hp > 0)
+                    {
+                        int enx1 = rndXe1.Next(19, 38);
+                        int eny1 = rndYe1.Next(11, 18);
+                        e1.x = enx1;
+                        e1.y = eny1;
+                        Console.SetCursorPosition(enx1, eny1);
+                        Console.Write(e1.classE);
+                    }
+                    else {
+                        Console.SetCursorPosition(e1.x, e1.y);
+                        Console.Write(" ");
+                    }
+                    
+                    if (e2.hp > 0)
+                    {
+                        int enx2 = rndXe2.Next(19, 37);
+                        int eny2 = rndYe2.Next(2, 9);
+                        e2.x = enx2;
+                        e2.y = eny2;
+                        Console.SetCursorPosition(enx2, eny2);
+                        Console.Write(e2.classE);
+                    }
+                    else
+                    {
+                        Console.SetCursorPosition(e2.x, e2.y);
+                        Console.Write(" ");
+                    }
 
-                    int enx1 = rndXe1.Next(1, 30);
-                    int eny1 = rndYe1.Next(1, 10);
-
-
-                    int enx2 = rndXe2.Next(8, 38);
-                    int eny2 = rndYe2.Next(9, 19);
-
-
-                    int enx3 = rndXe3.Next(2, 15);
-                    int eny3 = rndYe3.Next(9, 19);
-
-                    e1.x = enx1;
-                    e1.y = eny1;
-
-                    e2.x = enx2;
-                    e2.y = eny2;
-
-                    e3.x = enx3;
-                    e3.y = eny3;
-
-
-                    Console.SetCursorPosition(enx1, eny1);
-                    Console.Write(e1.classE);
-
-                    Console.SetCursorPosition(enx2, eny2);
-                    Console.Write(e2.classE);
-
-                    Console.SetCursorPosition(enx3, eny3);
-                    Console.Write(e3.classE);
-
+                    if (e3.hp > 0)
+                    {
+                        int enx3 = rndXe3.Next(2, 18);
+                        int eny3 = rndYe3.Next(11, 19);
+                        e3.x = enx3;
+                        e3.y = eny3;
+                        Console.SetCursorPosition(enx3, eny3);
+                        Console.Write(e3.classE);
+                    }
+                    else
+                    {
+                        Console.SetCursorPosition(e3.x, e3.y);
+                        Console.Write(" ");
+                    }
                     a += 1;
                 }
-
+                if (game >= 3)
+                {
+                    Console.Clear();
+                    youWinLines = File.ReadAllLines(youWinPath);
+                    foreach (string s in youWinLines)
+                    {
+                        Console.WriteLine(s);
+                    }
+                    Environment.Exit(1);
+                }
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 
                 switch (keyInfo.Key)
@@ -842,21 +849,20 @@ namespace Roguelike
                                 player.MoveUp();
 
 
-                                if ((e1.x == (player.x) && e1.y == (player.y) ))
+                                if ((e1.x == (player.x) && e1.y == (player.y) ) && e1.hp > 0)
                                 {
                                     fight.start(player, e1);
-                                    if (fight.start(player, e1) == 1)
-                                    {
-                                        game += 1;
-                                    }
+                                    game += fight.start(player, e1);
                                 }
-                                if ((e2.x == (player.x) && e2.y == (player.y)))
+                                if ((e2.x == (player.x) && e2.y == (player.y)) && e2.hp > 0)
                                 {
                                     fight.start(player, e2);
+                                    game += fight.start(player, e2);
                                 }
-                                if ((e3.x == (player.x) && e3.y == (player.y)))
+                                if ((e3.x == (player.x) && e3.y == (player.y)) && e3.hp > 0)
                                 {
                                     fight.start(player, e3);
+                                    game += fight.start(player, e3);
                                 }
 
                                 if (map.tiles[player.GetX(), player.GetY()] == stick.img)
@@ -874,94 +880,100 @@ namespace Roguelike
                                 }
                                 //player.MoveUp();
 
-
-                                if (e1.x + e1.XMovementValue != 0 && e1.x + e1.XMovementValue != 38 && e1.y + e1.YMovementValue != 0 && e1.y + e1.YMovementValue != 19)
+                                if (e1.hp > 0)
                                 {
-                                    e1.EWander(1);
+                                    if (e1.x + e1.XMovementValue != 0 && e1.x + e1.XMovementValue != 38 && e1.y + e1.YMovementValue != 0 && e1.y + e1.YMovementValue != 19)
+                                    {
+                                        e1.EWander(1);
+                                    }
+
+
+                                    else if (e1.x + e1.XMovementValue == 0)
+                                    {
+                                        e1.x += 1;
+                                    }
+                                    else if (e1.x + e1.XMovementValue == 38)
+                                    {
+                                        e1.x -= 1;
+                                    }
+                                    else if (e1.y + e1.YMovementValue == 0)
+                                    {
+                                        e1.y += 1;
+                                    }
+                                    else if (e1.y + e1.YMovementValue == 19)
+                                    {
+                                        e1.y -= 1;
+                                    }
                                 }
 
+                                if (e2.hp > 0)
+                                {
 
-                                else if (e1.x + e1.XMovementValue == 0)
-                                {
-                                    e1.x += 1;
-                                }
-                                else if (e1.x + e1.XMovementValue == 38)
-                                {
-                                    e1.x -= 1;
-                                }
-                                else if (e1.y + e1.YMovementValue == 0)
-                                {
-                                    e1.y += 1;
-                                }
-                                else if (e1.y + e1.YMovementValue == 19)
-                                {
-                                    e1.y -= 1;
-                                }
+                                    if (e2.x + e2.XMovementValue != 0 && e2.x + e1.XMovementValue != 38 && e2.y + e2.YMovementValue != 0 && e2.y + e2.YMovementValue != 19)
+                                    {
+                                        e2.EWander(2);
+                                    }
 
 
-
-
-                                if (e2.x + e2.XMovementValue != 0 && e2.x + e1.XMovementValue != 38 && e2.y + e2.YMovementValue != 0 && e2.y + e2.YMovementValue != 19)
-                                {
-                                    e2.EWander(2);
+                                    else if (e2.x + e2.XMovementValue == 0)
+                                    {
+                                        e2.x += 1;
+                                    }
+                                    else if (e2.x + e2.XMovementValue == 38)
+                                    {
+                                        e2.x -= 1;
+                                    }
+                                    else if (e2.y + e2.YMovementValue == 0)
+                                    {
+                                        e2.y += 1;
+                                    }
+                                    else if (e2.y + e2.YMovementValue == 19)
+                                    {
+                                        e2.y -= 1;
+                                    }
                                 }
 
+                                if (e3.hp > 0)
+                                {
 
-                                else if (e2.x + e2.XMovementValue == 0)
-                                {
-                                    e2.x += 1;
-                                }
-                                else if (e2.x + e2.XMovementValue == 38)
-                                {
-                                    e2.x -= 1;
-                                }
-                                else if (e2.y + e2.YMovementValue == 0)
-                                {
-                                    e2.y += 1;
-                                }
-                                else if (e2.y + e2.YMovementValue == 19)
-                                {
-                                    e2.y -= 1;
-                                }
-
-
-                                
-
-                                if (e3.x + e3.XMovementValue != 0 && e3.x + e3.XMovementValue != 38 && e3.y + e3.YMovementValue != 0 && e3.y + e3.YMovementValue != 19)
-                                {
-                                    e3.EWander(3);
-                                }
+                                    if (e3.x + e3.XMovementValue != 0 && e3.x + e3.XMovementValue != 38 && e3.y + e3.YMovementValue != 0 && e3.y + e3.YMovementValue != 19)
+                                    {
+                                        e3.EWander(3);
+                                    }
 
 
 
-                                else if (e3.x + e3.XMovementValue == 0)
-                                {
-                                    e3.x += 1;
+                                    else if (e3.x + e3.XMovementValue == 0)
+                                    {
+                                        e3.x += 1;
+                                    }
+                                    else if (e3.x + e3.XMovementValue == 38)
+                                    {
+                                        e3.x -= 1;
+                                    }
+                                    else if (e3.y + e3.YMovementValue == 0)
+                                    {
+                                        e3.y += 1;
+                                    }
+                                    else if (e3.y + e3.YMovementValue == 19)
+                                    {
+                                        e3.y -= 1;
+                                    }
                                 }
-                                else if (e3.x + e3.XMovementValue == 38)
-                                {
-                                    e3.x -= 1;
-                                }
-                                else if (e3.y + e3.YMovementValue == 0)
-                                {
-                                    e3.y += 1;
-                                }
-                                else if (e3.y + e3.YMovementValue == 19)
-                                {
-                                    e3.y -= 1;
-                                }
-
-                                if ((e1.x == (player.x) && e1.y == (player.y)))
+                                if ((e1.x == (player.x) && e1.y == (player.y)) && e1.hp > 0)
                                 {
                                     fight.start(player, e1);
+                                    game += fight.start(player, e1);
                                 }
-                                if ((e2.x == (player.x) && e2.y == (player.y)))
+                                if ((e2.x == (player.x) && e2.y == (player.y)) && e2.hp > 0)
                                 {
                                     fight.start(player, e2);
+                                    game += fight.start(player, e2);
                                 }
-                                if ((e3.x == (player.x) && e3.y == (player.y)))
+                                if ((e3.x == (player.x) && e3.y == (player.y)) && e2.hp > 0)
                                 {
                                     fight.start(player, e3);
+                                    game += fight.start(player, e3);
                                 }
                             }
 
@@ -975,17 +987,20 @@ namespace Roguelike
                             {
                                 player.MoveDown();
 
-                                if ((e1.x == (player.x) && e1.y == (player.y)))
+                                if ((e1.x == (player.x) && e1.y == (player.y) && e1.hp >0))
                                 {
                                     fight.start(player, e1);
+                                    game += fight.start(player, e1);
                                 }
-                                if ((e2.x == (player.x) && e2.y == (player.y)))
+                                if ((e2.x == (player.x) && e2.y == (player.y) && e2.hp > 0))
                                 {
                                     fight.start(player, e2);
+                                    game += fight.start(player, e2);
                                 }
-                                if ((e3.x == (player.x) && e3.y == (player.y)))
+                                if ((e3.x == (player.x) && e3.y == (player.y) && e3.hp > 0))
                                 {
                                     fight.start(player, e3);
+                                    game += fight.start(player, e3);
                                 }
 
                                 if (map.tiles[player.GetX(), player.GetY()] == stick.img)
@@ -1003,93 +1018,103 @@ namespace Roguelike
                                 }
                                 //player.MoveDown();
 
-
-                                if (e1.x + e1.XMovementValue != 0 && e1.x + e1.XMovementValue != 38 && e1.y + e1.YMovementValue != 0 && e1.y + e1.YMovementValue != 19)
+                                if (e1.hp > 0)
                                 {
-                                    e1.EWander(1);
+                                    if (e1.x + e1.XMovementValue != 0 && e1.x + e1.XMovementValue != 38 && e1.y + e1.YMovementValue != 0 && e1.y + e1.YMovementValue != 19)
+                                    {
+                                        e1.EWander(1);
+                                    }
+
+
+                                    else if (e1.x + e1.XMovementValue == 0)
+                                    {
+                                        e1.x += 1;
+                                    }
+                                    else if (e1.x + e1.XMovementValue == 38)
+                                    {
+                                        e1.x -= 1;
+                                    }
+                                    else if (e1.y + e1.YMovementValue == 0)
+                                    {
+                                        e1.y += 1;
+                                    }
+                                    else if (e1.y + e1.YMovementValue == 19)
+                                    {
+                                        e1.y -= 1;
+                                    }
+
+                                }
+                                if (e2.hp > 0)
+                                {
+
+                                    if (e2.x + e2.XMovementValue != 0 && e2.x + e1.XMovementValue != 38 && e2.y + e2.YMovementValue != 0 && e2.y + e2.YMovementValue != 19)
+                                    {
+                                        e2.EWander(2);
+                                    }
+
+
+                                    else if (e2.x + e2.XMovementValue == 0)
+                                    {
+                                        e2.x += 1;
+                                    }
+                                    else if (e2.x + e2.XMovementValue == 38)
+                                    {
+                                        e2.x -= 1;
+                                    }
+                                    else if (e2.y + e2.YMovementValue == 0)
+                                    {
+                                        e2.y += 1;
+                                    }
+                                    else if (e2.y + e2.YMovementValue == 19)
+                                    {
+                                        e2.y -= 1;
+                                    }
+
+                                }
+
+                                if (e3.hp > 0)
+                                {
+                                    if (e3.x + e3.XMovementValue != 0 && e3.x + e3.XMovementValue != 38 && e3.y + e3.YMovementValue != 0 && e3.y + e3.YMovementValue != 19)
+                                    {
+                                        e3.EWander(3);
+                                    }
+
+
+
+                                    else if (e3.x + e3.XMovementValue == 0)
+                                    {
+                                        e3.x += 1;
+                                    }
+                                    else if (e3.x + e3.XMovementValue == 38)
+                                    {
+                                        e3.x -= 1;
+                                    }
+                                    else if (e3.y + e3.YMovementValue == 0)
+                                    {
+                                        e3.y += 1;
+                                    }
+                                    else if (e3.y + e3.YMovementValue == 19)
+                                    {
+                                        e3.y -= 1;
+                                    }
                                 }
 
 
-                                else if (e1.x + e1.XMovementValue == 0)
-                                {
-                                    e1.x += 1;
-                                }
-                                else if (e1.x + e1.XMovementValue == 38)
-                                {
-                                    e1.x -= 1;
-                                }
-                                else if (e1.y + e1.YMovementValue == 0)
-                                {
-                                    e1.y += 1;
-                                }
-                                else if (e1.y + e1.YMovementValue == 19)
-                                {
-                                    e1.y -= 1;
-                                }
-
-
-
-                                if (e2.x + e2.XMovementValue != 0 && e2.x + e1.XMovementValue != 38 && e2.y + e2.YMovementValue != 0 && e2.y + e2.YMovementValue != 19)
-                                {
-                                    e2.EWander(2);
-                                }
-
-
-                                else if (e2.x + e2.XMovementValue == 0)
-                                {
-                                    e2.x += 1;
-                                }
-                                else if (e2.x + e2.XMovementValue == 38)
-                                {
-                                    e2.x -= 1;
-                                }
-                                else if (e2.y + e2.YMovementValue == 0)
-                                {
-                                    e2.y += 1;
-                                }
-                                else if (e2.y + e2.YMovementValue == 19)
-                                {
-                                    e2.y -= 1;
-                                }
-
-
-                                
-
-                                if (e3.x + e3.XMovementValue != 0 && e3.x + e3.XMovementValue != 38 && e3.y + e3.YMovementValue != 0 && e3.y + e3.YMovementValue != 19)
-                                {
-                                    e3.EWander(3);
-                                }
-
-
-
-                                else if (e3.x + e3.XMovementValue == 0)
-                                {
-                                    e3.x += 1;
-                                }
-                                else if (e3.x + e3.XMovementValue == 38)
-                                {
-                                    e3.x -= 1;
-                                }
-                                else if (e3.y + e3.YMovementValue == 0)
-                                {
-                                    e3.y += 1;
-                                }
-                                else if (e3.y + e3.YMovementValue == 19)
-                                {
-                                    e3.y -= 1;
-                                }
-
-                                if ((e1.x == (player.x) && e1.y == (player.y)))
+                                if ((e1.x == (player.x) && e1.y == (player.y)) && e1.hp > 0)
                                 {
                                     fight.start(player, e1);
+                                    game += fight.start(player, e1);
+
                                 }
-                                if ((e2.x == (player.x) && e2.y == (player.y)))
+                                if ((e2.x == (player.x) && e2.y == (player.y)) && e2.hp > 0)
                                 {
                                     fight.start(player, e2);
+                                    game += fight.start(player, e2);
                                 }
-                                if ((e3.x == (player.x) && e3.y == (player.y)))
+                                if ((e3.x == (player.x) && e3.y == (player.y)) && e3.hp > 0)
                                 {
                                     fight.start(player, e3);
+                                    game += fight.start(player, e3);
                                 }
                             }
 
@@ -1103,17 +1128,20 @@ namespace Roguelike
                             {
                                 player.MoveLeft();
 
-                                if ((e1.x == (player.x) && e1.y == (player.y)))
+                                if ((e1.x == (player.x) && e1.y == (player.y)) && e1.hp > 0)
                                 {
                                     fight.start(player, e1);
+                                    game += fight.start(player, e1);
                                 }
-                                if ((e2.x == (player.x) && e2.y == (player.y)))
+                                if ((e2.x == (player.x) && e2.y == (player.y)) && e2.hp > 0)
                                 {
                                     fight.start(player, e2);
+                                    game += fight.start(player, e2);
                                 }
-                                if ((e3.x == (player.x) && e3.y == (player.y)))
+                                if ((e3.x == (player.x) && e3.y == (player.y)) && e3.hp > 0)
                                 {
                                     fight.start(player, e3);
+                                    game += fight.start(player, e3);
                                 }
 
                                 if (map.tiles[player.GetX(), player.GetY()] == stick.img)
@@ -1131,97 +1159,104 @@ namespace Roguelike
                                 }
                                 //player.MoveLeft();
 
-                                if (e1.x + e1.XMovementValue != 0 && e1.x + e1.XMovementValue != 38 && e1.y + e1.YMovementValue != 0 && e1.y + e1.YMovementValue != 19)
+                                if (e1.hp > 0)
                                 {
-                                    e1.EWander(1);
+                                    if (e1.x + e1.XMovementValue != 0 && e1.x + e1.XMovementValue != 38 && e1.y + e1.YMovementValue != 0 && e1.y + e1.YMovementValue != 19)
+                                    {
+                                        e1.EWander(1);
+                                    }
+
+
+                                    else if (e1.x + e1.XMovementValue == 0)
+                                    {
+                                        e1.x += 1;
+                                    }
+                                    else if (e1.x + e1.XMovementValue == 38)
+                                    {
+                                        e1.x -= 1;
+                                    }
+                                    else if (e1.y + e1.YMovementValue == 0)
+                                    {
+                                        e1.y += 1;
+                                    }
+                                    else if (e1.y + e1.YMovementValue == 19)
+                                    {
+                                        e1.y -= 1;
+                                    }
+
                                 }
 
 
-                                else if (e1.x + e1.XMovementValue == 0)
+                                if (e2.hp > 0)
                                 {
-                                    e1.x += 1;
-                                }
-                                else if (e1.x + e1.XMovementValue == 38)
-                                {
-                                    e1.x -= 1;
-                                }
-                                else if (e1.y + e1.YMovementValue == 0)
-                                {
-                                    e1.y += 1;
-                                }
-                                else if (e1.y + e1.YMovementValue == 19)
-                                {
-                                    e1.y -= 1;
-                                }
+
+                                    if (e2.x + e2.XMovementValue != 0 && e2.x + e1.XMovementValue != 38 && e2.y + e2.YMovementValue != 0 && e2.y + e2.YMovementValue != 19)
+                                    {
+                                        e2.EWander(2);
+                                    }
 
 
-                                
+                                    else if (e2.x + e2.XMovementValue == 0)
+                                    {
+                                        e2.x += 1;
+                                    }
+                                    else if (e2.x + e2.XMovementValue == 38)
+                                    {
+                                        e2.x -= 1;
+                                    }
+                                    else if (e2.y + e2.YMovementValue == 0)
+                                    {
+                                        e2.y += 1;
+                                    }
+                                    else if (e2.y + e2.YMovementValue == 19)
+                                    {
+                                        e2.y -= 1;
+                                    }
 
-
-
-                                if (e2.x + e2.XMovementValue != 0 && e2.x + e1.XMovementValue != 38 && e2.y + e2.YMovementValue != 0 && e2.y + e2.YMovementValue != 19)
-                                {
-                                    e2.EWander(2);
-                                }
-
-
-                                else if (e2.x + e2.XMovementValue == 0)
-                                {
-                                    e2.x += 1;
-                                }
-                                else if (e2.x + e2.XMovementValue == 38)
-                                {
-                                    e2.x -= 1;
-                                }
-                                else if (e2.y + e2.YMovementValue == 0)
-                                {
-                                    e2.y += 1;
-                                }
-                                else if (e2.y + e2.YMovementValue == 19)
-                                {
-                                    e2.y -= 1;
                                 }
 
-
-                                
-
-
-                                if (e3.x + e3.XMovementValue != 0 && e3.x + e3.XMovementValue != 38 && e3.y + e3.YMovementValue != 0 && e3.y + e3.YMovementValue != 19)
+                                if (e3.hp > 0)
                                 {
-                                    e3.EWander(3);
+
+                                    if (e3.x + e3.XMovementValue != 0 && e3.x + e3.XMovementValue != 38 && e3.y + e3.YMovementValue != 0 && e3.y + e3.YMovementValue != 19)
+                                    {
+                                        e3.EWander(3);
+                                    }
+
+
+
+                                    else if (e3.x + e3.XMovementValue == 0)
+                                    {
+                                        e3.x += 1;
+                                    }
+                                    else if (e3.x + e3.XMovementValue == 38)
+                                    {
+                                        e3.x -= 1;
+                                    }
+                                    else if (e3.y + e3.YMovementValue == 0)
+                                    {
+                                        e3.y += 1;
+                                    }
+                                    else if (e3.y + e3.YMovementValue == 19)
+                                    {
+                                        e3.y -= 1;
+                                    }
                                 }
 
-
-
-                                else if (e3.x + e3.XMovementValue == 0)
-                                {
-                                    e3.x += 1;
-                                }
-                                else if (e3.x + e3.XMovementValue == 38)
-                                {
-                                    e3.x -= 1;
-                                }
-                                else if (e3.y + e3.YMovementValue == 0)
-                                {
-                                    e3.y += 1;
-                                }
-                                else if (e3.y + e3.YMovementValue == 19)
-                                {
-                                    e3.y -= 1;
-                                }
-
-
-                                if ((e1.x == (player.x) && e1.y == (player.y)))
+                                if ((e1.x == (player.x) && e1.y == (player.y)) && e1.hp > 0)
                                 {
                                     fight.start(player, e1);
+                                    game += fight.start(player, e1);
                                 }
-                                if ((e2.x == (player.x) && e2.y == (player.y)))
+                                if ((e2.x == (player.x) && e2.y == (player.y)) && e2.hp > 0)
                                 {
                                     fight.start(player, e2);
+                                    game += fight.start(player, e2);
                                 }
-                                if ((e3.x == (player.x) && e3.y == (player.y)))
+                                if ((e3.x == (player.x) && e3.y == (player.y)) && e3.hp > 0)
                                 {
                                     fight.start(player, e3);
+                                    game += fight.start(player, e3);
                                 }
                             }
 
@@ -1236,17 +1271,20 @@ namespace Roguelike
                             {
                                 player.MoveRight();
                                 
-                                if ((e1.x == (player.x) && e1.y == (player.y)))
+                                if ((e1.x == (player.x) && e1.y == (player.y)) && e1.hp > 0)
                                 {
                                     fight.start(player, e1);
+                                    game += fight.start(player, e1);
                                 }
-                                if ((e2.x == (player.x) && e2.y == (player.y)))
+                                if ((e2.x == (player.x) && e2.y == (player.y)) && e2.hp > 0)
                                 {
                                     fight.start(player, e2);
+                                    game += fight.start(player, e2);
                                 }
-                                if ((e3.x == (player.x) && e3.y == (player.y)))
+                                if ((e3.x == (player.x) && e3.y == (player.y)) && e3.hp > 0)
                                 {
                                     fight.start(player, e3);
+                                    game += fight.start(player, e3);
                                 }
 
                                 if (map.tiles[player.GetX(), player.GetY()] == stick.img)
@@ -1264,94 +1302,101 @@ namespace Roguelike
                                 }
                                 //player.MoveRight();
 
-
-                                if (e1.x + e1.XMovementValue != 0 && e1.x + e1.XMovementValue != 38 && e1.y + e1.YMovementValue != 0 && e1.y + e1.YMovementValue != 19)
+                                if (e1.hp > 0)
                                 {
-                                    e1.EWander(1);
+                                    if (e1.x + e1.XMovementValue != 0 && e1.x + e1.XMovementValue != 38 && e1.y + e1.YMovementValue != 0 && e1.y + e1.YMovementValue != 19)
+                                    {
+                                        e1.EWander(1);
+                                    }
+
+
+                                    else if (e1.x + e1.XMovementValue == 0)
+                                    {
+                                        e1.x += 1;
+                                    }
+                                    else if (e1.x + e1.XMovementValue == 38)
+                                    {
+                                        e1.x -= 1;
+                                    }
+                                    else if (e1.y + e1.YMovementValue == 0)
+                                    {
+                                        e1.y += 1;
+                                    }
+                                    else if (e1.y + e1.YMovementValue == 19)
+                                    {
+                                        e1.y -= 1;
+                                    }
+
                                 }
-
-
-                                else if (e1.x + e1.XMovementValue == 0)
+                                if (e2.hp > 0)
                                 {
-                                    e1.x += 1;
-                                }
-                                else if (e1.x + e1.XMovementValue == 38)
-                                {
-                                    e1.x -= 1;
-                                }
-                                else if (e1.y + e1.YMovementValue == 0)
-                                {
-                                    e1.y += 1;
-                                }
-                                else if (e1.y + e1.YMovementValue == 19)
-                                {
-                                    e1.y -= 1;
-                                }
+                                    if (e2.x + e2.XMovementValue != 0 && e2.x + e1.XMovementValue != 38 && e2.y + e2.YMovementValue != 0 && e2.y + e2.YMovementValue != 19)
+                                    {
+                                        e2.EWander(2);
+                                    }
 
 
-
-                                if (e2.x + e2.XMovementValue != 0 && e2.x + e1.XMovementValue != 38 && e2.y + e2.YMovementValue != 0 && e2.y + e2.YMovementValue != 19)
-                                {
-                                    e2.EWander(2);
-                                }
-
-
-                                else if (e2.x + e2.XMovementValue == 0)
-                                {
-                                    e2.x += 1;
-                                }
-                                else if (e2.x + e2.XMovementValue == 38)
-                                {
-                                    e2.x -= 1;
-                                }
-                                else if (e2.y + e2.YMovementValue == 0)
-                                {
-                                    e2.y += 1;
-                                }
-                                else if (e2.y + e2.YMovementValue == 19)
-                                {
-                                    e2.y -= 1;
-                                }
-
-
-                                
-
-
-                                if (e3.x + e3.XMovementValue != 0 && e3.x + e3.XMovementValue != 38 && e3.y + e3.YMovementValue != 0 && e3.y + e3.YMovementValue != 19)
-                                {
-                                    e3.EWander(3);
+                                    else if (e2.x + e2.XMovementValue == 0)
+                                    {
+                                        e2.x += 1;
+                                    }
+                                    else if (e2.x + e2.XMovementValue == 38)
+                                    {
+                                        e2.x -= 1;
+                                    }
+                                    else if (e2.y + e2.YMovementValue == 0)
+                                    {
+                                        e2.y += 1;
+                                    }
+                                    else if (e2.y + e2.YMovementValue == 19)
+                                    {
+                                        e2.y -= 1;
+                                    }
                                 }
 
 
 
-                                else if (e3.x + e3.XMovementValue == 0)
+                                if (e3.hp > 0)
                                 {
-                                    e3.x += 1;
-                                }
-                                else if (e3.x + e3.XMovementValue == 38)
-                                {
-                                    e3.x -= 1;
-                                }
-                                else if (e3.y + e3.YMovementValue == 0)
-                                {
-                                    e3.y += 1;
-                                }
-                                else if (e3.y + e3.YMovementValue == 19)
-                                {
-                                    e3.y -= 1;
-                                }
+                                    if (e3.x + e3.XMovementValue != 0 && e3.x + e3.XMovementValue != 38 && e3.y + e3.YMovementValue != 0 && e3.y + e3.YMovementValue != 19)
+                                    {
+                                        e3.EWander(3);
+                                    }
 
-                                if ((e1.x == (player.x) && e1.y == (player.y)))
-                                {
-                                    fight.start(player, e1);
-                                }
-                                if ((e2.x == (player.x) && e2.y == (player.y)))
-                                {
-                                    fight.start(player, e2);
-                                }
-                                if ((e3.x == (player.x) && e3.y == (player.y)))
-                                {
-                                    fight.start(player, e3);
+
+
+                                    else if (e3.x + e3.XMovementValue == 0)
+                                    {
+                                        e3.x += 1;
+                                    }
+                                    else if (e3.x + e3.XMovementValue == 38)
+                                    {
+                                        e3.x -= 1;
+                                    }
+                                    else if (e3.y + e3.YMovementValue == 0)
+                                    {
+                                        e3.y += 1;
+                                    }
+                                    else if (e3.y + e3.YMovementValue == 19)
+                                    {
+                                        e3.y -= 1;
+                                    }
+
+                                    if ((e1.x == (player.x) && e1.y == (player.y)) && e1.hp > 0)
+                                    {
+                                        fight.start(player, e1);
+                                        game += fight.start(player, e1);
+                                    }
+                                    if ((e2.x == (player.x) && e2.y == (player.y)) && e2.hp > 0)
+                                    {
+                                        fight.start(player, e2);
+                                        game += fight.start(player, e2);
+                                    }
+                                    if ((e3.x == (player.x) && e3.y == (player.y)) && e2.hp > 0)
+                                    {
+                                        fight.start(player, e3);
+                                        game += fight.start(player, e3);
+                                    }
                                 }
                             }
 
