@@ -5,6 +5,21 @@ VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roguelike", "Roguelike\Roguelike.csproj", "{3C1E2488-18FD-4B83-B0CC-B050111345C3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{DD6F597D-C371-4372-BD16-C1C9D4177BE8}"
+	ProjectSection(SolutionItems) = preProject
+		gameover.txt = gameover.txt
+		hero.txt = hero.txt
+		mob1.txt = mob1.txt
+		mob2.txt = mob2.txt
+		mob3.txt = mob3.txt
+		trader1.txt = trader1.txt
+		trader2.txt = trader2.txt
+		trader3.txt = trader3.txt
+		trader4.txt = trader4.txt
+		trader5.txt = trader5.txt
+		youwin.txt = youwin.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
