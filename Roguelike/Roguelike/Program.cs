@@ -35,14 +35,14 @@ namespace Roguelike
             {
                 this.hp = hp * 10;
                 this.atk = atk * 2;
-                this.def = def * 1;
-                this.gold = gold * 100;
+                this.def = def * 2;
+                this.gold = gold * 0;
             }
             else if (classP == 2)
             {
                 this.hp = hp * 15;
                 this.atk = atk * 1;
-                this.def = def * 1;
+                this.def = def * 2;
                 this.gold = gold * 0;
             }
         }
@@ -132,10 +132,7 @@ namespace Roguelike
             Random ranE2 = new Random();
             int RandE2 = ranE2.Next(2, 4);
             Random ranE3 = new Random();
-
-            //int RandE1 = ranE1.Next(1, 4);
-            //int RandE2 = ranE2.Next(RandE1);
-            int RandE3 = ranE3.Next(1, 4);
+            int RandE3 = ranE3.Next(1, 3);
 
             if (EnemyID == 1)
             {
@@ -161,17 +158,17 @@ namespace Roguelike
 
             if (classE == 2)
             {
-                this.hp = hp * 4;
-                this.atk = atk * 2;
+                this.hp = hp * 6;
+                this.atk = atk * 5;
                 this.def = def * 2;
                 this.gold = 8;
                 this.enemyPath = "C:\\Users\\yugbl\\source\\repos\\Roguelike\\Roguelike\\mob2.txt";
             }
             if (classE == 3)
             {
-                this.hp = hp * 7;
+                this.hp = hp * 10;
                 this.atk = atk * 10;
-                this.def = def * 1;
+                this.def = def * 3;
                 this.gold = 15;
                 this.enemyPath = "C:\\Users\\yugbl\\source\\repos\\Roguelike\\Roguelike\\mob3.txt";
             }
@@ -492,78 +489,81 @@ namespace Roguelike
 
         public int start(Player p1, Enemy e1)
         {
-            Console.Clear();
-
-            lines1 = File.ReadAllLines(e1.enemyPath);
-            //lines2 = File.ReadAllLines(e1.enemyPath);
-            int maxE1Xp = e1.hp;
-            int maxP1Xp = p1.hp;
-
-
-            foreach (string s in lines1)
+            if (e1.hp > 0)
             {
-                Console.WriteLine(s);
-            }
-
-
-            Console.WriteLine($"     Игрок: {maxP1Xp} / {maxP1Xp}                                          Монстр: {maxE1Xp} / {maxE1Xp} ");
-            Console.ReadKey();
-
-            while (e1.hp > 0 && p1.hp > 0)
-            {
-
                 Console.Clear();
+
+                lines1 = File.ReadAllLines(e1.enemyPath);
+                //lines2 = File.ReadAllLines(e1.enemyPath);
+                int maxE1Xp = e1.hp;
+                int maxP1Xp = p1.hp;
+
 
                 foreach (string s in lines1)
                 {
                     Console.WriteLine(s);
                 }
-                e1.hp = e1.hp - (p1.atk - e1.def);
-                Console.WriteLine($"     Игрок: {p1.hp} / {maxP1Xp}                                          Монстр: {e1.hp} / {maxE1Xp} ");
-                Console.WriteLine("Герой бьет");
 
+
+                Console.WriteLine($" Игрок: {maxP1Xp} / {maxP1Xp}                                           Монстр: {maxE1Xp} / {maxE1Xp} ");
                 Console.ReadKey();
 
-                if (e1.hp > 0)
+                while (e1.hp > 0 && p1.hp > 0)
                 {
+
                     Console.Clear();
+
                     foreach (string s in lines1)
                     {
                         Console.WriteLine(s);
                     }
-                    p1.hp = p1.hp - (e1.atk - p1.def);
-                    Console.WriteLine($"     Игрок: {p1.hp} / {maxP1Xp}                                          Монстр: {e1.hp} / {maxE1Xp} ");
-                    Console.WriteLine("Героя бьют");
+                    e1.hp = e1.hp - (p1.atk - e1.def);
+                    Console.WriteLine($" Игрок: {p1.hp} / {maxP1Xp}                                           Монстр: {e1.hp} / {maxE1Xp} ");
+                    Console.WriteLine("Герой бьет");
+
                     Console.ReadKey();
-                }
-                else if (e1.hp <= 0)
-                {
-                    break;
-                }
-                else { break; }
 
-            }
-            if (e1.hp <= 0)
-            {
-                Console.Clear();
-                p1.gold += e1.gold;
-                Console.WriteLine("Монстр повержен");
-                Console.WriteLine($"Вы получили + {e1.gold} золота");
-                Console.ReadKey();
-                return 1;
-            }
-            else
-            {
-                Console.Clear();
-                gameOverLines = File.ReadAllLines(gameOverPath);
-                foreach (string s in gameOverLines)
-                {
-                    Console.WriteLine(s);
-                }
-                Environment.Exit(1);
-                return 0;
-            }
+                    if (e1.hp > 0)
+                    {
+                        Console.Clear();
+                        foreach (string s in lines1)
+                        {
+                            Console.WriteLine(s);
+                        }
+                        p1.hp = p1.hp - (e1.atk - p1.def);
+                        Console.WriteLine($" Игрок: {p1.hp} / {maxP1Xp}                                           Монстр: {e1.hp} / {maxE1Xp} ");
+                        Console.WriteLine("Героя бьют");
+                        Console.ReadKey();
+                    }
+                    else if (e1.hp <= 0)
+                    {
+                        break;
+                    }
+                    else { break; }
 
+                }
+                if (e1.hp <= 0)
+                {
+                    Console.Clear();
+                    p1.gold += e1.gold;
+                    Console.WriteLine("Монстр повержен!!!");
+                    Console.WriteLine($"Вы поулчили + {e1.gold} золота");
+                    Console.ReadKey();
+                    return 1;
+                }
+                else
+                {
+                    Console.Clear();
+                    gameOverLines = File.ReadAllLines(gameOverPath);
+                    foreach (string s in gameOverLines)
+                    {
+                        Console.WriteLine(s);
+                    }
+                    Environment.Exit(1);
+                    return 0;
+                }
+            }
+            return 1;
         }
     }
 
